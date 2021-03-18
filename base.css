@@ -10,6 +10,10 @@ h1 {
   background-color:#aaddaa;
 }
 
+h2 {
+  background-color:#afeeee;
+}
+
 #nav {
   list-style: none;
   overflow: hidden;
