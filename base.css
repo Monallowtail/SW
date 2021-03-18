@@ -6,6 +6,13 @@ body {
   padding-right:  300px;
 }
 
+@media screen and (max-width:480px) { 
+    .parts{
+        padding-left:   30px;
+        padding-right:  30px;
+    }
+}
+
 h1 {
   background-color:#aaddaa;
 }
