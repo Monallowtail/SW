@@ -47,6 +47,11 @@ ul li, ol li {
   font-weight: bold;
 }
 
+a {
+  text-decoration: none;
+  color: #000;
+}
+
 #nav {
   list-style: none;
   overflow: hidden;
