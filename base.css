@@ -73,13 +73,13 @@ ul#menu {
     top: 0;
     left: 0;
     z-index: 80;
-    background-color: #3584bb;
+    background-color: #aacc66;
 }
 .menu-content ul {
     padding: 70px 10px 0;
 }
 .menu-content ul li {
-    border-bottom: solid 1px #ffffff;
+    border-bottom: solid 1px #000000;
     list-style: none;
 }
 .menu-content ul li a {
