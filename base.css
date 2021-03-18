@@ -6,7 +6,7 @@ body {
   padding-right:  300px;
 }
 
-@media screen and (max-width:640px) { 
+@media screen and (max-width:10000000px) { 
     body{
         padding-left:   15px;
         padding-right:  15px;
