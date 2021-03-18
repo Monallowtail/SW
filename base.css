@@ -8,6 +8,28 @@ h1 {
   background-color:#aaddaa;
 }
 
+#nav {
+  list-style: none;
+  overflow: hidden;
+}
+ 
+#nav li {
+  width: 140px;
+  text-align: center;
+  background-color: #333;
+  float: left;
+  height: 50px;
+  line-height: 50px;
+  margin-right: 2px;
+}
+ 
+#nav li a {
+  text-decoration: none;
+  color: #fff;
+  font-weight: bold;
+  padding: 20px;
+}
+
 /*メニューボタン*/
 .menu-btn {
     position: fixed;
@@ -106,5 +128,5 @@ h1 {
 }
 
 #menu-btn-check:checked ~ .menu-content {
-    left: 70%;/*メニューを画面内へ*/
+    left: 60%;/*メニューを画面内へ*/
 }
