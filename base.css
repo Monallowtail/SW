@@ -4,6 +4,10 @@ body {
   font-family: "ＭＳ　ゴシック",sans-serif;
 }
 
+#h1 {
+  background-color:#4faeae;
+}
+
 /*メインメニュー*/
 ul#menu {
   width:960px; height:50px; /*メインメニューの幅高さ*/
@@ -13,7 +17,7 @@ ul#menu {
   display:inline;
   float:left;
 }
-#nemu li a{
+#menu li a{
   display:block;
   width:240px; height:35px;
 }
