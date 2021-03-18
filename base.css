@@ -62,7 +62,7 @@ h1 {
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 30; /*たてはば？*/
+    z-index: 30;
     background-color: #aacc66;
 }
 .menu-content ul {
@@ -75,7 +75,7 @@ h1 {
 .menu-content ul li a {
     display: block;
     width: 100%;
-    font-size: 15px;
+    font-size: 30px;
     box-sizing: border-box;
     color:#000000;
     text-decoration: none;
