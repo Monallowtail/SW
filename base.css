@@ -3,3 +3,17 @@ body {
   font-size:95%;
   font-family: "ＭＳ　ゴシック",sans-serif;
 }
+
+/*メインメニュー*/
+ul#menu {
+  width:960px; height:50px; /*メインメニューの幅高さ*/
+}
+#menu li{
+  list-style-type:none;
+  display:inline;
+  float:left;
+}
+#nemu li a{
+  display:block;
+  width:240px; height:35px;
+}
