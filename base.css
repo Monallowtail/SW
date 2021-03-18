@@ -116,5 +116,5 @@ ul#menu {
 }
 
 #menu-btn-check:checked ~ .menu-content {
-    left: 0;/*メニューを画面内へ*/
+    left: 50%;/*メニューを画面内へ*/
 }
