@@ -106,5 +106,5 @@ h1 {
 }
 
 #menu-btn-check:checked ~ .menu-content {
-    left: 50%;/*メニューを画面内へ*/
+    left: 30%;/*メニューを画面内へ*/
 }
