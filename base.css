@@ -8,8 +8,8 @@ body {
 
 @media screen and (max-width:1000px) { 
     body{
-        padding-left:   15px;
-        padding-right:  15px;
+        padding-left:   20px;
+        padding-right:  20px;
     }
 }
 
@@ -32,8 +32,8 @@ h3 {
 #nav {
   list-style: none;
   overflow: hidden;
-	display: flex;
-	justify-content: center;
+  display: flex;
+  justify-content: center;
 }
  
 #nav li {
