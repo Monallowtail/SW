@@ -20,7 +20,23 @@ body {
 }
 
 h1 {
-  background-color:#aaddaa;
+  position: relative;
+  padding: 1.5rem 2rem;
+  color: #fff;
+  border-radius: 10px;
+  background: #094;
+}
+
+h1:after {
+  position: absolute;
+  bottom: -9px;
+  left: 1em;
+  width: 0;
+  height: 0;
+  content: '';
+  border-width: 10px 10px 0 10px;
+  border-style: solid;
+  border-color: #094 transparent transparent transparent;
 }
 
 h2 {
