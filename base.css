@@ -6,7 +6,7 @@ body {
   padding-right:  300px;
 }
 
-@media screen and (max-width:480px) { 
+@media screen and (max-width:640px) { 
     .parts{
         padding-left:   15px;
         padding-right:  15px;
