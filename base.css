@@ -35,16 +35,32 @@ h3 {
   background: #eeeeee;
 }
 
-ul li, ol li {
-  color: #404040;
-  border-left: solid 6px #1fa67a;/*左側の線*/
-  border-bottom: solid 2px #dadada;/*下に灰色線*/
-  background: whitesmoke;
-  margin-bottom: 5px;/*下のバーとの余白*/
+ul li {
+  color: black;
+  position:relative;
+  background: #f1f8ff;/*バーの色*/
   line-height: 1.5;
   padding: 0.5em;
-  list-style-type: none!important;/*ポチ消す*/
-  font-weight: bold;
+  margin-bottom: 4px;
+  border-left : solid 35px #5c9ee7;/*先の色＝アイコン裏の色*/
+  list-style-type: none!important;
+}
+
+ul li:before {
+  font-family: "Font Awesome 5 Free";
+  content: "\f303";
+  position: absolute;
+  display: block;
+  padding: 0.5em;
+  width: 1.2em;
+  color: white; /*アイコン色*/
+  font-weight: normal;/*アイコンは太字にしない*/
+  text-align: center;
+  left : -35px; /*左端からのアイコンまでの距離*/
+  /*以下 上下中央寄せのため*/
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
 }
 
 a {
