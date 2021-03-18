@@ -16,7 +16,7 @@ h1 {
 }
  
 #nav li {
-  width: 0px;
+  width: 250px;
   text-align: center;
   background-color: #ccc;
   float: left;
