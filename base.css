@@ -41,6 +41,10 @@ a {
   font-weight: bold;
 }
 
+p {
+  padding: 50px
+}
+
 #nav {
   list-style: none;
   overflow: hidden;
