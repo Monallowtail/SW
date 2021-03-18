@@ -11,7 +11,9 @@ h1 {
 }
 
 h2 {
-  background-color:#afeeee;
+  padding: 1rem 2rem;
+  border-left: 6px double #000;
+  background: #f4f4f4;
 }
 
 #nav {
