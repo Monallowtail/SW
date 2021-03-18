@@ -8,20 +8,6 @@ h1 {
   background-color:#aaddaa;
 }
 
-/*メインメニュー*/
-ul#menu {
-  width:960px; height:50px; /*メインメニューの幅高さ*/
-}
-#menu li{
-  list-style-type:none;
-  display:inline;
-  float:left;
-}
-#menu li a{
-  display:block;
-  width:240px; height:35px;
-}
-
 /*メニューボタン*/
 .menu-btn {
     position: fixed;
@@ -114,7 +100,7 @@ ul#menu {
     position: fixed;
     top: 0;
     left: 100%;/*leftの値を変更してメニューを画面外へ*/
-    z-index: 80;
+    z-index: 30;
     background-color: #aacc66;
     transition: all 0.5s;/*アニメーション設定*/
 }
