@@ -1,9 +1,9 @@
 @charset "utf-8";
 body {
-  font-size:120%;
+  font-size:100%;
   font-family: "ＭＳ　ゴシック",sans-serif;
-  padding-left:   200px;
-  padding-right:  200px;
+  padding-left:   300px;
+  padding-right:  300px;
 }
 
 h1 {
