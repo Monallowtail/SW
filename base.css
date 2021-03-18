@@ -8,14 +8,14 @@ body {
   font-size:100%;
   font-family: "ＭＳ　ゴシック",sans-serif;
   background-color:#ffffff; /* 周囲の背景色 */
-  margin: 0px 450px;
+  margin: 10px 450px;
   padding-left: 15px;
   padding-right: 15px;
 }
 
 @media screen and (max-width:1000px) { 
     body{
-        margin: 0px 30px;
+        margin: 10px 30px;
     }
 }
 
