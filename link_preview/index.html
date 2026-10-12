@@ -5,17 +5,111 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="referrer" content="no-referrer">
 <meta name="robots" content="noindex,nofollow">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; connect-src 'self'; img-src data: blob:; font-src data:; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; connect-src 'self'; img-src data: blob:; font-src 'self' data:; base-uri 'none'; form-action 'none'; object-src 'none'">
 <title>限定共有ページ</title>
 <style>
-body{margin:0;background:#f8f7f2;color:#253c3a;font-family:system-ui,sans-serif;line-height:1.8}.link-opening{max-width:620px;margin:12vh auto;padding:28px}.link-opening h1{font-size:24px}.link-opening p{color:#4c5d59}button{font:inherit}
+@font-face{font-family:'Noto Sans JP';src:url('assets/noto-sans-jp.woff2') format('woff2');font-weight:100 900;font-display:swap}
+body{margin:0;background:#f8f7f2;color:#253c3a;font-family:'Noto Sans JP',sans-serif;line-height:1.8}.link-opening{max-width:620px;margin:12vh auto;padding:28px}.link-opening h1{font-size:24px}.link-opening p{color:#4c5d59}button{font:inherit}
 </style>
 </head>
 <body>
 <main class="link-opening"><h1>限定共有ページ</h1><p id="link-status" role="status">閲覧リンクを確認しています。</p></main>
 <script>
 'use strict';
+/* Read authenticated saved resources from same-origin encrypted packs. */
+'use strict';
+async function makeMMVTpSecureStore(key, index, nativeFetch, baseURL) {
+  const resources = index.resources;
+  if (index.schema !== 1 || !resources || !index.packs) throw new Error('Invalid archive index');
+  const resourceHeader = new Uint8Array([77,77,86,84,80,82,69,83,1]);
+  const pending = new Map(), blobs = new Map(), packs = new Map();
+  let blobBytes = 0, packBytes = 0, active = 0;
+  const queue = [];
+  const limit = 32 * 1024 * 1024;
+  const own = (object, field) => Object.prototype.hasOwnProperty.call(object, field);
+  function pathOf(value) {
+    const path = String(value || '').split(/[?#]/, 1)[0];
+    return path.startsWith('/') ? path : '/experiments_E6/' + path;
+  }
+  function touch(cache, field) {
+    const value = cache.get(field); cache.delete(field); cache.set(field, value); return value;
+  }
+  function put(cache, field, value, size, kind) {
+    if (size > limit) return;
+    cache.set(field, value);
+    if (kind === 'blob') blobBytes += size; else packBytes += size;
+    while ((kind === 'blob' ? blobBytes : packBytes) > limit) {
+      const first = cache.keys().next().value;
+      const old = cache.get(first); cache.delete(first);
+      if (kind === 'blob') blobBytes -= old.size; else packBytes -= old.byteLength;
+    }
+  }
+  async function slot(work) {
+    if (active >= 6) await new Promise(resolve => queue.push(resolve));
+    active++;
+    try { return await work(); }
+    finally { active--; queue.shift()?.(); }
+  }
+  function hexBytes(hex) {
+    if (!/^[a-f0-9]{64}$/.test(hex)) throw new Error('Invalid resource digest');
+    return Uint8Array.from(hex.match(/../g), value => parseInt(value, 16));
+  }
+  async function digest(bytes) {
+    return Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256', bytes)), n => n.toString(16).padStart(2, '0')).join('');
+  }
+  async function packet(entry) {
+    if (!/^packs\/[a-f0-9]{64}\.bin$/.test(entry.pack)) throw new Error('Invalid pack path');
+    const info = index.packs[entry.pack] || index.packs[entry.pack.slice(6)];
+    if (!info || !Number.isSafeInteger(entry.start) || !Number.isSafeInteger(entry.length)
+      || entry.start < 0 || entry.length < 37 || entry.start + entry.length > info.bytes) throw new Error('Invalid resource location');
+    if (packs.has(entry.pack)) return touch(packs, entry.pack).slice(entry.start, entry.start + entry.length);
+    const response = await nativeFetch(new URL(entry.pack, baseURL), {
+      headers: {Range: 'bytes=' + entry.start + '-' + (entry.start + entry.length - 1)},
+      cache: 'no-cache', credentials: 'omit', redirect: 'error', referrerPolicy: 'no-referrer'
+    });
+    if (response.status !== 200 && response.status !== 206) throw new Error('Archive unavailable');
+    const bytes = new Uint8Array(await response.arrayBuffer());
+    if (response.status === 206) {
+      if (response.headers.get('Content-Range') !== 'bytes ' + entry.start + '-' + (entry.start + entry.length - 1) + '/' + info.bytes
+        || bytes.length !== entry.length) throw new Error('Invalid archive range');
+      return bytes;
+    }
+    if (bytes.length !== info.bytes || await digest(bytes) !== info.sha256) throw new Error('Invalid archive pack');
+    put(packs, entry.pack, bytes, bytes.length, 'pack');
+    return bytes.slice(entry.start, entry.start + entry.length);
+  }
+  async function load(path) {
+    const entry = resources[path];
+    const bytes = await packet(entry);
+    if (!resourceHeader.every((n, i) => bytes[i] === n)) throw new Error('Invalid resource');
+    const aad = new Uint8Array(41); aad.set(resourceHeader); aad.set(hexBytes(entry.sha256), 9);
+    const zipped = await crypto.subtle.decrypt({name: 'AES-GCM', iv: bytes.slice(9, 21), additionalData: aad, tagLength: 128}, key, bytes.slice(21));
+    const stream = new Blob([zipped]).stream().pipeThrough(new DecompressionStream('gzip'));
+    const raw = new Uint8Array(await new Response(stream).arrayBuffer());
+    if (raw.length !== entry.rawBytes || await digest(raw) !== entry.sha256) throw new Error('Invalid resource content');
+    const blob = new Blob([raw], {type: entry.type || 'application/octet-stream'});
+    put(blobs, path, blob, blob.size, 'blob');
+    return blob;
+  }
+  return Object.freeze({
+    has(value) { return own(resources, pathOf(value)); },
+    read(value) {
+      const path = pathOf(value);
+      if (!own(resources, path)) return Promise.reject(new Error('Saved resource unavailable'));
+      if (blobs.has(path)) return Promise.resolve(touch(blobs, path));
+      if (!pending.has(path)) {
+        const result = slot(() => load(path)).finally(() => pending.delete(path));
+        pending.set(path, result);
+      }
+      return pending.get(path);
+    },
+    counts: Object.freeze({...index.counts})
+  });
+}
+
 (async () => {
+  const nativeFetch = window.fetch.bind(window);
+  const baseURL = new URL('.', location.href);
   const status = document.getElementById('link-status');
   const storageName = 'mmvtp-link-preview/v1:' + location.pathname;
   const fragment = new URLSearchParams(location.hash.slice(1));
@@ -55,18 +149,30 @@ body{margin:0;background:#f8f7f2;color:#253c3a;font-family:system-ui,sans-serif;
     const keyBytes = Uint8Array.from(atob(encoded), character => character.charCodeAt(0));
     if (keyBytes.length !== 32) throw new Error('Invalid key');
     const key = await crypto.subtle.importKey('raw', keyBytes, 'AES-GCM', false, ['decrypt']);
-    const encrypted = await fetch(new URL('page.enc', location.href), {
-      cache: 'no-store', credentials: 'omit', redirect: 'error', referrerPolicy: 'no-referrer'
-    });
-    if (!encrypted.ok) throw new Error('Encrypted page unavailable');
-    const bytes = new Uint8Array(await encrypted.arrayBuffer());
-    const header = new Uint8Array([77, 77, 86, 84, 80, 69, 78, 67, 1]);
-    if (bytes.length < 37 || !header.every((value, index) => value === bytes[index])) throw new Error('Invalid page');
-    const decrypted = await crypto.subtle.decrypt({name: 'AES-GCM', iv: bytes.slice(9, 21),
-      additionalData: header, tagLength: 128}, key, bytes.slice(21));
-    plaintext = new TextDecoder('utf-8', {fatal: true}).decode(decrypted);
-    try { sessionStorage.setItem(storageName, keyText); } catch (_) { /* Sharing controls still work. */ }
     keyBytes.fill(0);
+    async function readDocument(name) {
+      const encrypted = await nativeFetch(new URL(name, baseURL), {
+        cache: 'no-store', credentials: 'omit', redirect: 'error', referrerPolicy: 'no-referrer'
+      });
+      if (!encrypted.ok) throw new Error('Encrypted document unavailable');
+      const bytes = new Uint8Array(await encrypted.arrayBuffer());
+      const header = bytes.slice(0, 9);
+      if (bytes.length < 37 || ![77,77,86,84,80,69,78,67].every((n, i) => header[i] === n)
+        || ![1,2].includes(header[8])) throw new Error('Invalid document');
+      let decrypted = await crypto.subtle.decrypt({name:'AES-GCM', iv:bytes.slice(9,21), additionalData:header, tagLength:128}, key, bytes.slice(21));
+      if (header[8] === 2) {
+        if (typeof DecompressionStream !== 'function') throw new Error('Browser update required');
+        decrypted = await new Response(new Blob([decrypted]).stream().pipeThrough(new DecompressionStream('gzip'))).arrayBuffer();
+      }
+      return new TextDecoder('utf-8', {fatal:true}).decode(decrypted);
+    }
+    message('カタログを開いています。');
+    plaintext = await readDocument('page.enc');
+    if (plaintext.includes('data-mmvtp-archive="1"')) {
+      const index = JSON.parse(await readDocument('resource_index.enc'));
+      window.MMVTpSecureStore = await makeMMVTpSecureStore(key, index, nativeFetch, baseURL);
+    }
+    try { sessionStorage.setItem(storageName, keyText); } catch (_) { /* Sharing controls still work. */ }
   } catch (_) {
     message('このリンクではページを開けません。共有用のリンクを確認してください。');
     return;
