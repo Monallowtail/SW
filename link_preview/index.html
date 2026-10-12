@@ -23,6 +23,7 @@ async function makeMMVTpSecureStore(key, index, nativeFetch, baseURL) {
   if (index.schema !== 1 || !resources || !index.packs) throw new Error('Invalid archive index');
   const resourceHeader = new Uint8Array([77,77,86,84,80,82,69,83,1]);
   const pending = new Map(), blobs = new Map(), packs = new Map();
+  const packReads = new Map(), rangePacks = new Set();
   let blobBytes = 0, packBytes = 0, active = 0;
   const queue = [];
   const limit = 32 * 1024 * 1024;
@@ -36,6 +37,11 @@ async function makeMMVTpSecureStore(key, index, nativeFetch, baseURL) {
   }
   function put(cache, field, value, size, kind) {
     if (size > limit) return;
+    if (cache.has(field)) {
+      const previous = cache.get(field);
+      if (kind === 'blob') blobBytes -= previous.size; else packBytes -= previous.byteLength;
+      cache.delete(field);
+    }
     cache.set(field, value);
     if (kind === 'blob') blobBytes += size; else packBytes += size;
     while ((kind === 'blob' ? blobBytes : packBytes) > limit) {
@@ -57,12 +63,7 @@ async function makeMMVTpSecureStore(key, index, nativeFetch, baseURL) {
   async function digest(bytes) {
     return Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256', bytes)), n => n.toString(16).padStart(2, '0')).join('');
   }
-  async function packet(entry) {
-    if (!/^packs\/[a-f0-9]{64}\.bin$/.test(entry.pack)) throw new Error('Invalid pack path');
-    const info = index.packs[entry.pack] || index.packs[entry.pack.slice(6)];
-    if (!info || !Number.isSafeInteger(entry.start) || !Number.isSafeInteger(entry.length)
-      || entry.start < 0 || entry.length < 37 || entry.start + entry.length > info.bytes) throw new Error('Invalid resource location');
-    if (packs.has(entry.pack)) return touch(packs, entry.pack).slice(entry.start, entry.start + entry.length);
+  async function fetchPacket(entry, info) {
     const response = await nativeFetch(new URL(entry.pack, baseURL), {
       headers: {Range: 'bytes=' + entry.start + '-' + (entry.start + entry.length - 1)},
       cache: 'no-cache', credentials: 'omit', redirect: 'error', referrerPolicy: 'no-referrer'
@@ -72,11 +73,32 @@ async function makeMMVTpSecureStore(key, index, nativeFetch, baseURL) {
     if (response.status === 206) {
       if (response.headers.get('Content-Range') !== 'bytes ' + entry.start + '-' + (entry.start + entry.length - 1) + '/' + info.bytes
         || bytes.length !== entry.length) throw new Error('Invalid archive range');
-      return bytes;
+      rangePacks.add(entry.pack);
+      return {bytes, partial: true, start: entry.start, length: entry.length};
     }
     if (bytes.length !== info.bytes || await digest(bytes) !== info.sha256) throw new Error('Invalid archive pack');
     put(packs, entry.pack, bytes, bytes.length, 'pack');
-    return bytes.slice(entry.start, entry.start + entry.length);
+    return {bytes, partial: false};
+  }
+  async function packet(entry) {
+    if (!/^packs\/[a-f0-9]{64}\.bin$/.test(entry.pack)) throw new Error('Invalid pack path');
+    const info = index.packs[entry.pack] || index.packs[entry.pack.slice(6)];
+    if (!info || !Number.isSafeInteger(entry.start) || !Number.isSafeInteger(entry.length)
+      || entry.start < 0 || entry.length < 37 || entry.start + entry.length > info.bytes) throw new Error('Invalid resource location');
+    if (packs.has(entry.pack)) return touch(packs, entry.pack).slice(entry.start, entry.start + entry.length);
+    // Probe each pack once. Full-response transports share that first transfer;
+    // normal Range transports keep independent segments concurrent afterward.
+    if (!rangePacks.has(entry.pack)) {
+      if (!packReads.has(entry.pack)) {
+        const request = fetchPacket(entry, info).finally(() => packReads.delete(entry.pack));
+        packReads.set(entry.pack, request);
+      }
+      const first = await packReads.get(entry.pack);
+      if (!first.partial) return first.bytes.slice(entry.start, entry.start + entry.length);
+      if (first.start === entry.start && first.length === entry.length) return first.bytes;
+    }
+    const result = await fetchPacket(entry, info);
+    return result.partial ? result.bytes : result.bytes.slice(entry.start, entry.start + entry.length);
   }
   async function load(path) {
     const entry = resources[path];
