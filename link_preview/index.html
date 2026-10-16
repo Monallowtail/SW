@@ -135,6 +135,19 @@ async function makeMMVTpSecureStore(key, index, nativeFetch, baseURL) {
   const status = document.getElementById('link-status');
   const storageName = 'mmvtp-link-preview/v1:' + location.pathname;
   const fragment = new URLSearchParams(location.hash.slice(1));
+  let documentRoute = null;
+  const requestedDocument = fragment.get('doc');
+  if (requestedDocument) {
+    try {
+      const candidate = new URL(requestedDocument, location.origin);
+      if (candidate.origin === location.origin && candidate.pathname === requestedDocument
+        && candidate.pathname.startsWith('/experiments_E6/') && /\.html?$/i.test(candidate.pathname)) {
+        candidate.search = fragment.get('query') || '';
+        candidate.hash = fragment.get('anchor') || '';
+        documentRoute = candidate;
+      }
+    } catch (_) { /* Invalid routes never become document content. */ }
+  }
   const provided = fragment.has('key');
   let keyText = provided ? fragment.get('key') : null;
   if (!provided) {
@@ -145,7 +158,14 @@ async function makeMMVTpSecureStore(key, index, nativeFetch, baseURL) {
     if (!provided) return;
     const clean = new URL(location.href);
     const caseId = fragment.get('case');
-    clean.hash = caseId && /^[A-Za-z0-9_-]{1,120}$/.test(caseId) ? caseId : '';
+    if (documentRoute) {
+      const parts = new URLSearchParams({doc: documentRoute.pathname});
+      if (documentRoute.search) parts.set('query', documentRoute.search);
+      if (documentRoute.hash) parts.set('anchor', documentRoute.hash);
+      clean.hash = parts.toString();
+    } else {
+      clean.hash = caseId && /^[A-Za-z0-9_-]{1,120}$/.test(caseId) ? caseId : '';
+    }
     history.replaceState(null, '', clean.href);
   }
   if (!keyText) {
@@ -194,11 +214,39 @@ async function makeMMVTpSecureStore(key, index, nativeFetch, baseURL) {
       const index = JSON.parse(await readDocument('resource_index.enc'));
       window.MMVTpSecureStore = await makeMMVTpSecureStore(key, index, nativeFetch, baseURL);
     }
-    try { sessionStorage.setItem(storageName, keyText); } catch (_) { /* Sharing controls still work. */ }
+    try { sessionStorage.setItem(storageName, keyText); } catch (_) { /* The initial keyed link remains usable. */ }
   } catch (_) {
     message('このリンクではページを開けません。共有用のリンクを確認してください。');
     return;
   }
+
+  window.MMVTpArchiveNavigation = {
+    route: documentRoute,
+    documentURL(virtualURL) {
+      const route = new URL(virtualURL, location.origin);
+      if (![location.origin, 'https://mmvtp.invalid'].includes(route.origin)
+        || !route.pathname.startsWith('/experiments_E6/')) {
+        throw new Error('Invalid archive route');
+      }
+      const target = new URL(location.href);
+      target.search = '';
+      const parts = new URLSearchParams({key: keyText});
+      const isCatalog = ['/experiments_E6/index_E6.html', '/experiments_E6/drawing_search_E6.html'].includes(route.pathname);
+      const caseMatch = route.pathname.match(/^\/experiments_E6\/cases\/([A-Za-z0-9_-]{1,120})\.html$/);
+      if (isCatalog || caseMatch) {
+        target.search = route.search;
+        const caseId = caseMatch ? caseMatch[1] : route.hash.slice(1);
+        if (caseId && /^[A-Za-z0-9_-]{1,120}$/.test(caseId)) parts.set('case', caseId);
+      } else {
+        if (!/\.html?$/i.test(route.pathname)) throw new Error('Invalid document route');
+        parts.set('doc', route.pathname);
+        if (route.search) parts.set('query', route.search);
+        if (route.hash) parts.set('anchor', route.hash);
+      }
+      target.hash = parts.toString();
+      return target.href;
+    }
+  };
 
   // Retaining this document's URL keeps the existing catalogue routing intact.
   document.open();
@@ -209,39 +257,6 @@ async function makeMMVTpSecureStore(key, index, nativeFetch, baseURL) {
   const robots = document.createElement('meta');
   robots.name = 'robots'; robots.content = 'noindex,nofollow'; document.head.append(robots);
 
-  function addSharingControl() {
-    const main = document.querySelector('main');
-    if (!main || document.getElementById('link-preview-sharing')) return;
-    const bar = document.createElement('div');
-    bar.id = 'link-preview-sharing';
-    bar.style.cssText = 'display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:0 0 18px';
-    const button = document.createElement('button');
-    button.type = 'button'; button.textContent = '共有・保存用リンク';
-    const hint = document.createElement('span');
-    hint.style.cssText = 'font-size:13px;color:#526561';
-    hint.textContent = 'このリンクを知っている人が閲覧できます。';
-    const feedback = document.createElement('span');
-    feedback.setAttribute('role', 'status'); feedback.style.cssText = 'font-size:13px';
-    button.addEventListener('click', () => {
-      const sharing = new URL(location.href);
-      const existingFragment = new URLSearchParams(sharing.hash.slice(1));
-      const caseId = existingFragment.has('key') ? existingFragment.get('case') : sharing.hash.slice(1);
-      const parts = new URLSearchParams({key: keyText});
-      if (window.MMVTpPreviewData?.catalog.some(record => record.id === caseId)) parts.set('case', caseId);
-      sharing.hash = parts.toString();
-      const sharingURL = sharing.href;
-      history.replaceState(null, '', sharingURL);
-      feedback.textContent = 'アドレス欄のリンクを保存・共有できます。';
-      if (navigator.clipboard?.writeText) {
-        navigator.clipboard.writeText(sharingURL).then(() => {
-          feedback.textContent = '共有・保存用リンクをコピーしました。';
-        }).catch(() => { /* The address bar remains usable. */ });
-      }
-    });
-    bar.append(button, hint, feedback); main.prepend(bar);
-  }
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', addSharingControl, {once: true});
-  else addSharingControl();
 })().catch(() => {
   const status = document.getElementById('link-status');
   if (status) status.textContent = 'ページを開けませんでした。共有用のリンクを確認してください。';
