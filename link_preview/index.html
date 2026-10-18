@@ -136,15 +136,17 @@ async function makeMMVTpSecureStore(key, index, nativeFetch, baseURL) {
   const storageName = 'mmvtp-link-preview/v1:' + location.pathname;
   const fragment = new URLSearchParams(location.hash.slice(1));
   let documentRoute = null;
+  let invalidDocumentRoute = fragment.has('doc');
   const requestedDocument = fragment.get('doc');
   if (requestedDocument) {
     try {
       const candidate = new URL(requestedDocument, location.origin);
       if (candidate.origin === location.origin && candidate.pathname === requestedDocument
-        && candidate.pathname.startsWith('/experiments_E6/') && /\.html?$/i.test(candidate.pathname)) {
+        && candidate.pathname.startsWith('/') && /\.html?$/i.test(candidate.pathname)) {
         candidate.search = fragment.get('query') || '';
         candidate.hash = fragment.get('anchor') || '';
         documentRoute = candidate;
+        invalidDocumentRoute = false;
       }
     } catch (_) { /* Invalid routes never become document content. */ }
   }
@@ -185,6 +187,10 @@ async function makeMMVTpSecureStore(key, index, nativeFetch, baseURL) {
   }
   // Remove the secret fragment before any document request or UI initialization.
   removeKeyFragment();
+  if (invalidDocumentRoute) {
+    message('このリンクではページを開けません。共有用のリンクを確認してください。');
+    return;
+  }
   let plaintext;
   try {
     const encoded = keyText.replace(/-/g, '+').replace(/_/g, '/') + '=';
@@ -212,7 +218,11 @@ async function makeMMVTpSecureStore(key, index, nativeFetch, baseURL) {
     plaintext = await readDocument('page.enc');
     if (plaintext.includes('data-mmvtp-archive="1"')) {
       const index = JSON.parse(await readDocument('resource_index.enc'));
-      window.MMVTpSecureStore = await makeMMVTpSecureStore(key, index, nativeFetch, baseURL);
+      const store = await makeMMVTpSecureStore(key, index, nativeFetch, baseURL);
+      if (documentRoute && !store.has(documentRoute.pathname)) {
+        throw new Error('Unavailable archive document');
+      }
+      window.MMVTpSecureStore = store;
     }
     try { sessionStorage.setItem(storageName, keyText); } catch (_) { /* The initial keyed link remains usable. */ }
   } catch (_) {
@@ -224,8 +234,10 @@ async function makeMMVTpSecureStore(key, index, nativeFetch, baseURL) {
     route: documentRoute,
     documentURL(virtualURL) {
       const route = new URL(virtualURL, location.origin);
+      const rawPath = String(virtualURL).split(/[?#]/, 1)[0];
       if (![location.origin, 'https://mmvtp.invalid'].includes(route.origin)
-        || !route.pathname.startsWith('/experiments_E6/')) {
+        || !rawPath.startsWith('/') || rawPath !== route.pathname
+        || !window.MMVTpSecureStore?.has(route.pathname)) {
         throw new Error('Invalid archive route');
       }
       const target = new URL(location.href);
