@@ -16,21 +16,117 @@ body{margin:0;background:#f8f7f2;color:#253c3a;font-family:'Noto Sans JP',sans-s
 <main class="link-opening"><h1>限定共有ページ</h1><p id="link-status" role="status">閲覧リンクを確認しています。</p></main>
 <script>
 'use strict';
-/* Read authenticated saved resources from same-origin encrypted packs. */
+/* Authenticate encrypted documents and lazily read saved archive resources. */
 'use strict';
-async function makeMMVTpSecureStore(key, index, nativeFetch, baseURL) {
-  const resources = index.resources;
-  if (index.schema !== 1 || !resources || !index.packs) throw new Error('Invalid archive index');
+async function makeMMVTpEncryptedDocuments(key, nativeFetch, baseURL) {
+  const cacheName = 'mmvtp-encrypted-documents/v2';
+  const pending = new Map();
+  let cacheWrites = 0;
+  const hexPattern = /^[a-f0-9]{64}$/;
+  const headerPrefix = new Uint8Array([77,77,86,84,80,69,78,67]);
+  let cache;
+  try { cache = await caches.open(cacheName); } catch (_) { /* Private/storage-disabled browsers still work. */ }
+  async function digest(bytes) {
+    return Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256', bytes)), n => n.toString(16).padStart(2, '0')).join('');
+  }
+  function validateDescriptor(entry) {
+    if (!entry || typeof entry !== 'object' || !hexPattern.test(entry.sha256)
+      || entry.path !== 'data/' + entry.sha256 + '.bin'
+      || !Number.isSafeInteger(entry.bytes) || entry.bytes < 37 || entry.bytes > 64 * 1024 * 1024
+      || !hexPattern.test(entry.raw_sha256) || !Number.isSafeInteger(entry.raw_bytes)
+      || entry.raw_bytes < 0 || entry.raw_bytes > 256 * 1024 * 1024) throw new Error('Invalid encrypted document descriptor');
+    return new URL(entry.path, baseURL).href;
+  }
+  async function decrypt(bytes, entry) {
+    if (bytes.length !== entry.bytes || await digest(bytes) !== entry.sha256) throw new Error('Invalid encrypted document digest');
+    const header = bytes.slice(0, 9);
+    if (!headerPrefix.every((n, i) => header[i] === n) || ![1,2].includes(header[8])) throw new Error('Invalid encrypted document');
+    let raw = new Uint8Array(await crypto.subtle.decrypt({name:'AES-GCM', iv:bytes.slice(9,21), additionalData:header, tagLength:128}, key, bytes.slice(21)));
+    if (header[8] === 2) {
+      if (typeof DecompressionStream !== 'function') throw new Error('Browser update required');
+      raw = new Uint8Array(await new Response(new Blob([raw]).stream().pipeThrough(new DecompressionStream('gzip'))).arrayBuffer());
+    }
+    if (raw.length !== entry.raw_bytes || await digest(raw) !== entry.raw_sha256) throw new Error('Invalid decrypted document digest');
+    return raw;
+  }
+  async function load(entry, url) {
+    if (cache) {
+      try {
+        const saved = await cache.match(url);
+        if (saved) {
+          try { return await decrypt(new Uint8Array(await saved.arrayBuffer()), entry); }
+          catch (_) { await cache.delete(url); }
+        }
+      } catch (_) { /* Fall back to a checked network response. */ }
+    }
+    for (let attempt = 0; attempt < 2; attempt++) {
+      try {
+        const response = await nativeFetch(url, {
+          cache: attempt ? 'reload' : 'force-cache', credentials: 'omit', redirect: 'error', referrerPolicy: 'no-referrer'
+        });
+        if (!response.ok) throw new Error('Encrypted document unavailable');
+        const bytes = new Uint8Array(await response.arrayBuffer());
+        const raw = await decrypt(bytes, entry);
+        if (cache) {
+          try {
+            await cache.put(url, new Response(bytes, {headers:{'Content-Type':'application/octet-stream'}}));
+            // Bound old encrypted generations without retaining any plaintext.
+            if (cacheWrites++ % 16 === 0) {
+              const saved = await cache.keys();
+              await Promise.all(saved.slice(0, Math.max(0, saved.length - 512)).map(request => cache.delete(request)));
+            }
+          }
+          catch (_) { /* Quota limits must not prevent opening the catalogue. */ }
+        }
+        return raw;
+      } catch (error) {
+        if (attempt) throw error;
+      }
+    }
+    throw new Error('Encrypted document unavailable');
+  }
+  async function read(entry) {
+    const url = validateDescriptor(entry);
+    // Only ciphertext is persisted. Decrypted bytes live for the active request.
+    const token = entry.sha256 + ':' + entry.raw_sha256;
+    if (!pending.has(token)) pending.set(token, load(entry, url).finally(() => pending.delete(token)));
+    return pending.get(token);
+  }
+  return Object.freeze({
+    read,
+    async text(entry) { return new TextDecoder('utf-8', {fatal:true}).decode(await read(entry)); },
+    async json(entry) { return JSON.parse(new TextDecoder('utf-8', {fatal:true}).decode(await read(entry))); },
+    validateDescriptor,
+    digest
+  });
+}
+
+async function makeMMVTpSecureStore(key, index, nativeFetch, baseURL, documents) {
+  const own = (object, field) => Object.prototype.hasOwnProperty.call(object, field);
+  if (index.schema !== 2 || !index.resources || typeof index.resources !== 'object' || Array.isArray(index.resources)
+    || !index.packs || typeof index.packs !== 'object' || Array.isArray(index.packs)
+    || !index.shards || typeof index.shards !== 'object' || Array.isArray(index.shards)
+    || !Array.isArray(index.html_routes) || Object.keys(index.shards).length < 1 || Object.keys(index.shards).length > 256) throw new Error('Invalid archive index');
+  const resources = Object.assign(Object.create(null), index.resources);
   const resourceHeader = new Uint8Array([77,77,86,84,80,82,69,83,1]);
-  const pending = new Map(), blobs = new Map(), packs = new Map();
+  const pending = new Map(), blobs = new Map(), packs = new Map(), shardReads = new Map(), loadedShards = new Set();
   const packReads = new Map(), rangePacks = new Set();
   let blobBytes = 0, packBytes = 0, active = 0;
   const queue = [];
   const limit = 32 * 1024 * 1024;
-  const own = (object, field) => Object.prototype.hasOwnProperty.call(object, field);
   function pathOf(value) {
-    const path = String(value || '').split(/[?#]/, 1)[0];
-    return path.startsWith('/') ? path : '/experiments_E6/' + path;
+    const raw = String(value || '').split(/[?#]/, 1)[0];
+    const path = raw.startsWith('/') ? raw : '/experiments_E6/' + raw;
+    if (path.includes('\\') || path.startsWith('//') || /%(?:2e|2f|5c)/i.test(path)
+      || new URL(path, 'https://mmvtp.invalid').pathname !== path) throw new Error('Invalid archive path');
+    return path;
+  }
+  for (const resourcePath of Object.keys(resources)) if (pathOf(resourcePath) !== resourcePath) throw new Error('Invalid archive resource path');
+  const htmlRoutes = new Set(index.html_routes);
+  if (htmlRoutes.size !== index.html_routes.length || index.html_routes.some(path => pathOf(path) !== path || !/\.html?$/i.test(path))) throw new Error('Invalid archive HTML routes');
+  for (const [bucket, descriptor] of Object.entries(index.shards)) {
+    if (!/^[a-f0-9]{2}$/.test(bucket)) throw new Error('Invalid archive bucket');
+    documents.validateDescriptor(descriptor);
   }
   function touch(cache, field) {
     const value = cache.get(field); cache.delete(field); cache.set(field, value); return value;
@@ -60,13 +156,34 @@ async function makeMMVTpSecureStore(key, index, nativeFetch, baseURL) {
     if (!/^[a-f0-9]{64}$/.test(hex)) throw new Error('Invalid resource digest');
     return Uint8Array.from(hex.match(/../g), value => parseInt(value, 16));
   }
-  async function digest(bytes) {
-    return Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256', bytes)), n => n.toString(16).padStart(2, '0')).join('');
+  async function digest(bytes) { return documents.digest(bytes); }
+  async function ensureForPath(value) {
+    const path = pathOf(value);
+    if (own(resources, path)) return true;
+    const bucket = (await digest(new TextEncoder().encode(path))).slice(0, 2);
+    if (!own(index.shards, bucket)) return false;
+    if (!loadedShards.has(bucket)) {
+      if (!shardReads.has(bucket)) {
+        const request = slot(async () => {
+          const shard = await documents.json(index.shards[bucket]);
+          if (shard.schema !== 2 || shard.bucket !== bucket || !shard.resources
+            || typeof shard.resources !== 'object' || Array.isArray(shard.resources)) throw new Error('Invalid archive shard');
+          for (const [resourcePath, entry] of Object.entries(shard.resources)) {
+            if (pathOf(resourcePath) !== resourcePath || !entry || typeof entry !== 'object') throw new Error('Invalid archive shard entry');
+            if (own(resources, resourcePath) && JSON.stringify(resources[resourcePath]) !== JSON.stringify(entry)) throw new Error('Conflicting archive resource');
+          }
+          Object.assign(resources, shard.resources); loadedShards.add(bucket);
+        }).finally(() => shardReads.delete(bucket));
+        shardReads.set(bucket, request);
+      }
+      await shardReads.get(bucket);
+    }
+    return own(resources, path);
   }
   async function fetchPacket(entry, info) {
     const response = await nativeFetch(new URL(entry.pack, baseURL), {
       headers: {Range: 'bytes=' + entry.start + '-' + (entry.start + entry.length - 1)},
-      cache: 'no-cache', credentials: 'omit', redirect: 'error', referrerPolicy: 'no-referrer'
+      cache: 'force-cache', credentials: 'omit', redirect: 'error', referrerPolicy: 'no-referrer'
     });
     if (response.status !== 200 && response.status !== 206) throw new Error('Archive unavailable');
     const bytes = new Uint8Array(await response.arrayBuffer());
@@ -86,8 +203,6 @@ async function makeMMVTpSecureStore(key, index, nativeFetch, baseURL) {
     if (!info || !Number.isSafeInteger(entry.start) || !Number.isSafeInteger(entry.length)
       || entry.start < 0 || entry.length < 37 || entry.start + entry.length > info.bytes) throw new Error('Invalid resource location');
     if (packs.has(entry.pack)) return touch(packs, entry.pack).slice(entry.start, entry.start + entry.length);
-    // Probe each pack once. Full-response transports share that first transfer;
-    // normal Range transports keep independent segments concurrent afterward.
     if (!rangePacks.has(entry.pack)) {
       if (!packReads.has(entry.pack)) {
         const request = fetchPacket(entry, info).finally(() => packReads.delete(entry.pack));
@@ -102,30 +217,40 @@ async function makeMMVTpSecureStore(key, index, nativeFetch, baseURL) {
   }
   async function load(path) {
     const entry = resources[path];
-    const bytes = await packet(entry);
-    if (!resourceHeader.every((n, i) => bytes[i] === n)) throw new Error('Invalid resource');
-    const aad = new Uint8Array(41); aad.set(resourceHeader); aad.set(hexBytes(entry.sha256), 9);
-    const zipped = await crypto.subtle.decrypt({name: 'AES-GCM', iv: bytes.slice(9, 21), additionalData: aad, tagLength: 128}, key, bytes.slice(21));
-    const stream = new Blob([zipped]).stream().pipeThrough(new DecompressionStream('gzip'));
-    const raw = new Uint8Array(await new Response(stream).arrayBuffer());
+    let raw;
+    if (entry.document) raw = await documents.read(entry.document);
+    else {
+      const bytes = await packet(entry);
+      if (!resourceHeader.every((n, i) => bytes[i] === n)) throw new Error('Invalid resource');
+      const aad = new Uint8Array(41); aad.set(resourceHeader); aad.set(hexBytes(entry.sha256), 9);
+      const zipped = await crypto.subtle.decrypt({name: 'AES-GCM', iv: bytes.slice(9, 21), additionalData: aad, tagLength: 128}, key, bytes.slice(21));
+      const stream = new Blob([zipped]).stream().pipeThrough(new DecompressionStream('gzip'));
+      raw = new Uint8Array(await new Response(stream).arrayBuffer());
+    }
     if (raw.length !== entry.rawBytes || await digest(raw) !== entry.sha256) throw new Error('Invalid resource content');
     const blob = new Blob([raw], {type: entry.type || 'application/octet-stream'});
     put(blobs, path, blob, blob.size, 'blob');
     return blob;
   }
   return Object.freeze({
-    has(value) { return own(resources, pathOf(value)); },
-    read(value) {
+    has(value) { try { return own(resources, pathOf(value)); } catch (_) { return false; } },
+    hasHTMLRoute(value) {
+      try { return typeof value === 'string' && pathOf(value) === value && htmlRoutes.has(value); }
+      catch (_) { return false; }
+    },
+    ensureForPath,
+    async read(value) {
       const path = pathOf(value);
-      if (!own(resources, path)) return Promise.reject(new Error('Saved resource unavailable'));
-      if (blobs.has(path)) return Promise.resolve(touch(blobs, path));
+      if (!await ensureForPath(path)) throw new Error('Saved resource unavailable');
+      if (blobs.has(path)) return touch(blobs, path);
       if (!pending.has(path)) {
         const result = slot(() => load(path)).finally(() => pending.delete(path));
         pending.set(path, result);
       }
       return pending.get(path);
     },
-    counts: Object.freeze({...index.counts})
+    counts: Object.freeze({...index.counts}),
+    generation: index.generation
   });
 }
 
@@ -198,31 +323,30 @@ async function makeMMVTpSecureStore(key, index, nativeFetch, baseURL) {
     if (keyBytes.length !== 32) throw new Error('Invalid key');
     const key = await crypto.subtle.importKey('raw', keyBytes, 'AES-GCM', false, ['decrypt']);
     keyBytes.fill(0);
-    async function readDocument(name) {
-      const encrypted = await nativeFetch(new URL(name, baseURL), {
-        cache: 'no-store', credentials: 'omit', redirect: 'error', referrerPolicy: 'no-referrer'
-      });
-      if (!encrypted.ok) throw new Error('Encrypted document unavailable');
-      const bytes = new Uint8Array(await encrypted.arrayBuffer());
-      const header = bytes.slice(0, 9);
-      if (bytes.length < 37 || ![77,77,86,84,80,69,78,67].every((n, i) => header[i] === n)
-        || ![1,2].includes(header[8])) throw new Error('Invalid document');
-      let decrypted = await crypto.subtle.decrypt({name:'AES-GCM', iv:bytes.slice(9,21), additionalData:header, tagLength:128}, key, bytes.slice(21));
-      if (header[8] === 2) {
-        if (typeof DecompressionStream !== 'function') throw new Error('Browser update required');
-        decrypted = await new Response(new Blob([decrypted]).stream().pipeThrough(new DecompressionStream('gzip'))).arrayBuffer();
-      }
-      return new TextDecoder('utf-8', {fatal:true}).decode(decrypted);
-    }
+    const documents = await makeMMVTpEncryptedDocuments(key, nativeFetch, baseURL);
     message('カタログを開いています。');
-    plaintext = await readDocument('page.enc');
-    if (plaintext.includes('data-mmvtp-archive="1"')) {
-      const index = JSON.parse(await readDocument('resource_index.enc'));
-      const store = await makeMMVTpSecureStore(key, index, nativeFetch, baseURL);
-      if (documentRoute && !store.has(documentRoute.pathname)) {
-        throw new Error('Unavailable archive document');
+    for (let attempt = 0; attempt < 2; attempt++) {
+      const response = await nativeFetch(new URL('manifest.json', baseURL), {
+        cache:'no-store', credentials:'omit', redirect:'error', referrerPolicy:'no-referrer'
+      });
+      if (!response.ok) throw new Error('Catalogue manifest unavailable');
+      const manifestText = await response.text();
+      if (manifestText.length > 16384) throw new Error('Invalid catalogue manifest');
+      const manifest = JSON.parse(manifestText);
+      if (manifest.schema !== 2 || !/^[a-f0-9]{64}$/.test(manifest.generation)) throw new Error('Invalid catalogue manifest');
+      documents.validateDescriptor(manifest.page);
+      documents.validateDescriptor(manifest.root);
+      const [page, index] = await Promise.all([documents.text(manifest.page), documents.json(manifest.root)]);
+      if (index.generation !== manifest.generation || index.page_sha256 !== manifest.page.sha256) {
+        if (!attempt) continue;
+        throw new Error('Catalogue generation changed');
       }
+      if (!page.includes('data-mmvtp-archive="1"')) throw new Error('Invalid catalogue page');
+      const store = await makeMMVTpSecureStore(key, index, nativeFetch, baseURL, documents);
+      if (documentRoute && !store.hasHTMLRoute(documentRoute.pathname)) throw new Error('Unavailable archive document');
       window.MMVTpSecureStore = store;
+      plaintext = page;
+      break;
     }
     try { sessionStorage.setItem(storageName, keyText); } catch (_) { /* The initial keyed link remains usable. */ }
   } catch (_) {
@@ -237,7 +361,7 @@ async function makeMMVTpSecureStore(key, index, nativeFetch, baseURL) {
       const rawPath = String(virtualURL).split(/[?#]/, 1)[0];
       if (![location.origin, 'https://mmvtp.invalid'].includes(route.origin)
         || !rawPath.startsWith('/') || rawPath !== route.pathname
-        || !window.MMVTpSecureStore?.has(route.pathname)) {
+        || !window.MMVTpSecureStore?.hasHTMLRoute(route.pathname)) {
         throw new Error('Invalid archive route');
       }
       const target = new URL(location.href);
