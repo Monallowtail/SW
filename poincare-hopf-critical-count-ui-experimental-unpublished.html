@@ -268,10 +268,30 @@ html:not([data-fonts="ready"]) .math,html:not([data-fonts="ready"]) .invariant,h
  .critical-count-value{font-size:25px}
  .critical-result{font-size:23px}
 }
+
+/* Desktop feedback: same-size Euler identity, compact aligned deformation control. */
+.critical-count-value,.critical-result,.euler-result{font-size:1em}
+footer{display:grid;grid-template-columns:minmax(0,1fr) clamp(240px,25vw,420px);column-gap:24px;align-items:center}
+.invariant{min-width:0}
+.deformation-controls{position:relative;min-width:0;min-height:132px;display:flex;align-items:center}
+.deformation-controls .regions{position:absolute;left:0;right:0;bottom:calc(50% + 20px);margin:0;justify-content:space-between;gap:2px}
+.deformation-controls .regions button{min-width:0;flex:1;padding:7px 5px}
+.deformation-controls .tools{margin:0}
+.status{grid-column:1/-1}
+@media(max-width:1000px){.critical-count-row{font-size:26px}}
+@media(max-width:650px){
+ footer{display:block}
+ .critical-count-row{font-size:24px}
+ .deformation-controls{display:block;min-height:0}
+ .deformation-controls .regions{position:static;margin-top:4px;gap:4px}
+ .deformation-controls .regions button{padding:7px 12px}
+ .deformation-controls .tools{margin:0}
+}
+@media(max-width:360px){.critical-count-row{font-size:22px}}
 </style><body>
 <header><h1>あそぼう　Poincaré–Hopfの定理</h1><div class="surface-meta"><span class="surface">球面 <span class="math">S<sup>2</sup></span></span></div><button id="reset">リセット</button></header>
 <main><section class="view"><div class="caption"></div><canvas id="left" aria-label="固定された球面 X。ドラッグで自由に回転" tabindex="0"></canvas></section><section class="view"><div class="caption"><nav aria-label="Y の操作"><button id="deform" aria-pressed="true">変形</button><button id="rotate" aria-pressed="false">回転</button><button id="reverse">高さを反転</button></nav></div><canvas id="right" aria-label="曲面 Y。変形モードでは右上・右下・左上・左下をドラッグして変形。左右の矢印キーで横に、上下の矢印キーで縦に変形" tabindex="0"></canvas></section></main>
-<footer><div class="invariant" id="equation" aria-live="polite"></div><div class="regions" role="group" aria-label="変形する領域"><button id="patch0" aria-pressed="true">右上</button><button id="patch1" aria-pressed="false">右下</button><button id="patch2" aria-pressed="false">左上</button><button id="patch3" aria-pressed="false">左下</button></div><div class="tools"><button id="cancel" hidden tabindex="-1" aria-hidden="true" disabled>相殺</button><label class="amplitude"><span id="patch-name">右上</span> <input id="amplitude" aria-label="局所変形の強さ" type="range" min="-0.55" max="0.55" step="0.001" value="0"></label></div><div class="status"><span id="status" role="status">臨界点 <span class="math">2</span></span></div></footer>
+<footer><div class="invariant" id="equation" aria-live="polite"></div><div class="deformation-controls"><div class="regions" role="group" aria-label="変形する領域"><button id="patch0" aria-pressed="true">右上</button><button id="patch1" aria-pressed="false">右下</button><button id="patch2" aria-pressed="false">左上</button><button id="patch3" aria-pressed="false">左下</button></div><div class="tools"><button id="cancel" hidden tabindex="-1" aria-hidden="true" disabled>相殺</button><label class="amplitude"><span id="patch-name">右上</span> <input id="amplitude" aria-label="局所変形の強さ" type="range" min="-0.55" max="0.55" step="0.001" value="0"></label></div></div><div class="status"><span id="status" role="status">臨界点 <span class="math">2</span></span></div></footer>
 <script type="module">const __critical_counts=(()=>{
 // Presentation only: callers supply the authoritative displayed root snapshot.
 // These fixed local portraits explain index types; they are not live trajectories.
