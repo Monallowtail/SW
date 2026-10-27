@@ -9,6 +9,9 @@ const localSeeds=PATCHES.map(p=>Array.from({length:11},(_,j)=>{const t=j/10,r=Ma
 let tracker,serial=0,frame=0,viewCache=new Map(),planCache=new Map();
 function tangentFrame(p,old){let e=old?.frame?.[0];if(e)e=e.map((x,i)=>x-dot(e,p)*p[i]);if(!e||norm(e)<.2)e=cross(Math.abs(p[2])>.8?[1,0,0]:[0,0,1],p);e=unit(e);return [e,cross(p,e)]}
 function decorate(r,old,id,patch,birth){const p=r.source,fr=tangentFrame(p,old);return {...r,p,id,label:id,patch,birth:birth??old?.birth,frame:fr,e:fr[0],f:fr[1],frameNumber:frame,uncertain:r.m===null}}
+// A failed stopped-state inspection must not advance authoritative IDs/history.
+// Existing interactive calculations never call this synchronous transaction.
+export function criticalTransaction(compute){const saved=structuredClone({tracker,serial,frame,viewCache,planCache});try{return compute()}catch(error){({tracker,serial,frame,viewCache,planCache}=saved);throw error}}
 export function resetTracker(){serial=0;frame=0;viewCache.clear();planCache.clear();tracker=null}
 function initialize(){const e=prepare([0,0,0,0]);tracker={depths:[0,0,0,0],roots:[decorate(refine(e,[0,0,1]),null,'A',null,null),decorate(refine(e,[0,0,-1]),null,'D',null,null)],retired:[],events:[],diagnostics:{completeness:'analytic_round_initial_state',method:'exact_round_initial_state',uncertain:false,unresolved:[],mesh:null,eulerDiagnostic:2,frameNumber:0}}}
 function candidateRoots(e,seeds){const roots=[],unresolved=[];for(const p of seeds){const r=refine(e,p,35);if(r.unresolved){if(r.residual<.005)unresolved.push(r);continue}if(!roots.some(q=>distance(q.source,r.source)<(q.m===null&&r.m===null?.002:2e-5)))roots.push(r)}return {roots,unresolved}}
