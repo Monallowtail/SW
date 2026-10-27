@@ -1266,7 +1266,7 @@ function ui(){
  const regionLabels=sign===-1?['右上','右下','左上','左下']:['右下','右上','左下','左上'];
  for(let i=0;i<4;i++){$('#patch'+i).textContent=regionLabels[i];$('#patch'+i).setAttribute('aria-pressed',i===selectedPatch);$('#patch'+i).disabled=!!animation||!!transition}
  $('#patch-name').textContent=regionLabels[selectedPatch];
- $('#status').innerHTML=animation?'変形中':cps.some(c=>c.m===null||c.uncertain)?'臨界点の数値精度を確認中':flowPending?'軌道を更新中':'';dirty=true;
+ $('#status').innerHTML=animation?'変形中':cps.some(c=>c.m===null||c.uncertain)?'臨界点の数値精度を確認中':'';dirty=true;
 }
 function select(id){if(animation)return;const c=displayedCritical().find(c=>c.id===id);if(c?.m===null)return;if(Number.isInteger(c?.patch))selectedPatch=c.patch;selected=selected.includes(id)?selected.filter(x=>x!==id):[...selected.slice(-1),id];ui()}
 function beginTransition(kind){animation=null;targetDepths=[...depths];targetLateral=lateral;for(const v of views)v.cancelGesture?.();transition={kind,phase:0,elapsed:0};ui()}
