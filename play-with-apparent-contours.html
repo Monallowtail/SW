@@ -254,6 +254,7 @@ main{height:calc(100dvh - 335px);min-height:390px;max-height:680px}.caption{just
 
 /* Surface selection keeps the original two instruments and compact controls. */
 select{font:inherit;color:var(--ink);background:transparent;border:0;border-bottom:1px solid var(--rule);padding:8px 20px 8px 0;width:194px;max-width:240px;min-height:42px}select:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}[hidden]{display:none!important}#surface-note{display:block;font-size:11px;color:var(--gray);margin-top:8px}#surface-note:empty{display:none}@media(max-width:650px){.surface-meta{gap:8px}select{width:172px;max-width:172px;font-size:13px;padding-right:4px}.euler{font-size:12px}.caption .view-label{font-size:10px}.surface-meta{min-width:0}}
+.math-mod{font-family:Consolas,"Courier New",monospace;font-style:normal;font-weight:400}
 </style></head><body>
 <header><h1>輪郭線とあそぼう</h1><div class="surface-meta"><select id="surface-select" aria-label="曲面を選ぶ"><option value="sphere">球面</option><option value="torus">トーラス</option><option value="genus2">2人乗りの浮き輪</option><option value="klein">クラインの壺：壺型</option><option value="klein8">クラインの壺：8の字型</option><option value="rp2">射影平面：ボーイ曲面</option><option value="roman">射影平面：ローマン曲面</option></select><span id="euler" class="euler math">χ(S<sup>2</sup>) = 2</span></div><button id="reset">リセット</button></header>
 <main><section class="view"><div class="caption"><span class="view-label" id="surface-label">球面とスクリーン</span><nav aria-label="曲面の操作"><button id="deform" aria-pressed="true">変形</button><button id="rotate" aria-pressed="false">回転</button></nav></div><canvas id="surface" tabindex="0" aria-label="球面。変形モードで4箇所を上下に引いて変形。回転モードで射影方向を変更。"></canvas></section><section class="view"><div class="caption"><span class="view-label">スクリーン</span></div><canvas id="screen" tabindex="0" aria-label="球面の平面への射影。ドラッグまたは矢印キーで選択点を移動。"></canvas><span class="canvas-hint" id="preimages">逆像 2個</span></section></main>
@@ -715,7 +716,7 @@ function ui(){
  const pending=key(geometry.state)!==key(state)||inFlight||queued||verification==='pending';
  const confirmed=verification==='confirmed'&&!pending,showNumbers=geometry.valid&&(pending||confirmed),unknown=pending?'計算中':'未確定';
  $('equation').innerHTML=`<span class="formula-label">射影化回転数の総和<\/span> <span class="math">= ${showNumbers?geometry.total:unknown}${confirmed?` = χ(${spec.symbol})`:''}<\/span>`;
- $('cusp-equation').innerHTML=`<span class="formula-label">カスプの個数<\/span> <span class="math">= ${showNumbers?geometry.cuspCount:unknown}${confirmed?` ≡ ${spec.chi} = χ(${spec.symbol}) (mod 2)`:''}<\/span>`;
+ $('cusp-equation').innerHTML=`<span class="formula-label">カスプの個数<\/span> <span class="math">= ${showNumbers?geometry.cuspCount:unknown}${confirmed?` ≡ ${spec.chi} = χ(${spec.symbol}) (<span class="math-mod">mod</span> 2)`:''}<\/span>`;
  $('component-results').replaceChildren(...geometry.components.map((c,i)=>{const b=document.createElement('button');b.className='component-result';b.innerHTML=`γ<sub>${i+1}<\/sub>${showNumbers?` : ${c.degree}`:''}`;b.setAttribute('aria-pressed',String(selectedComponent===i));b.setAttribute('aria-label',`成分${i+1}の強調表示を切り替える`);b.onclick=()=>{selectedComponent=selectedComponent===i?-1:i;ui();schedule()};return b}));
  $('status').textContent=workerError?'計算エラー':!pending&&verification==='uncertain'?'未確定':'';
 }
