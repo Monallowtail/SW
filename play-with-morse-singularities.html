@@ -1583,7 +1583,9 @@ function rasterizeSheetTriangle(counts,width,height,ax,ay,bx,by,cx,cy,frontDepth
 }
 
 function rasterizeSheetSurface(view,state={},options={}){
- const pixelSize=options.pixelSize??2,samples=options.samples??2;
+ // Retain one output texel per CSS
+ // pixel instead of downscaling to 2px blocks and magnifying them again.
+ const pixelSize=options.pixelSize??Math.max(1,Math.sqrt(view.w*view.h/250000)),samples=options.samples??(view.sheetRefined?2:1);
  const width=Math.max(1,Math.ceil(view.w/pixelSize)),height=Math.max(1,Math.ceil(view.h/pixelSize));
  const sampleWidth=width*samples,sampleHeight=height*samples;
  const counts=new Uint8Array(sampleWidth*sampleHeight),frontDepth=new Float64Array(sampleWidth*sampleHeight);frontDepth.fill(-Infinity);
@@ -1623,7 +1625,7 @@ function rasterizeSheetSurface(view,state={},options={}){
  return {width,height,sampleWidth,sampleHeight,counts,frontDepth,data,maxCount,histogram,rows,cols,refinedPixels,projected};
 }
 
-function sheetCacheKey(view,state){const deformed=state.deformed??view.right,sphere=!deformed||(!hasWells(state)&&!(state.lateral||0)&&!hasHorizontal(state.horizontal));return [view.w,view.h,view.scale,view.cx,view.cy,view.centerX||0,view.centerZ||0,sphere?0:view.yaw||0,sphere?0:view.pitch||0,deformed,deformed?depthsOf(state).join(','):0,deformed?state.sign??1:1,deformed?state.lateral||0:0,deformed?horizontalKey(state.horizontal):0,sphere?0:rotationKey(state.rotation??IDENTITY_ROTATION)].join('/')}
+function sheetCacheKey(view,state){const deformed=state.deformed??view.right,sphere=!deformed||(!hasWells(state)&&!(state.lateral||0)&&!hasHorizontal(state.horizontal));return [view.sheetRefined?1:0,view.w,view.h,view.scale,view.cx,view.cy,view.centerX||0,view.centerZ||0,sphere?0:view.yaw||0,sphere?0:view.pitch||0,deformed,deformed?depthsOf(state).join(','):0,deformed?state.sign??1:1,deformed?state.lateral||0:0,deformed?horizontalKey(state.horizontal):0,sphere?0:rotationKey(state.rotation??IDENTITY_ROTATION)].join('/')}
 
 function renderSurfaceSheets(ctx,view,state={}){
  const key=sheetCacheKey(view,state);let cache=sheetCaches.get(view),cacheHit=cache?.key===key;
@@ -1860,6 +1862,7 @@ for(const v of views){let drag=null,pinch=null,suppress=false,pendingGrip=null;c
  v.canvas.onkeydown=e=>{flushPendingGrips();if(['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(e.key)){e.preventDefault();if(transition||animation)return;if(v.right&&mode==='deform'){if(e.key==='ArrowUp'||e.key==='ArrowDown')targetDepths[selectedPatch]=clampDepth(targetDepths[selectedPatch]+(e.key==='ArrowUp'?1:-1)*sign*.005);else{const h=targetHorizontal.map(a=>[...a]),step=(e.key==='ArrowRight'?1:-1)*.00375;h[selectedPatch][0]+=step*Math.cos(v.yaw);h[selectedPatch][1]-=step*Math.sin(v.yaw);const r=Math.hypot(...h[selectedPatch]);if(r>OFFSET_LIMIT)h[selectedPatch]=h[selectedPatch].map(x=>x*OFFSET_LIMIT/r);targetHorizontal=normalizeHorizontal(h)};selected=[];ui()}else{if(e.key==='ArrowLeft')v.yaw+=.1;if(e.key==='ArrowRight')v.yaw-=.1;if(!v.right&&e.key==='ArrowUp')v.pitch-=.1;if(!v.right&&e.key==='ArrowDown')v.pitch+=.1;dirty=true}}};
 }
 window.addEventListener('resize',()=>{for(const v of views)v.rebaseGrip();dirty=true});
+let lastSurfaceDraw=0,surfaceRefined=false;
 function frame(now){flushPendingGrips();const followDt=lastFrame?Math.max(0,(now-lastFrame)/1000):1/60;frameDt=Math.min(.04,followDt);lastFrame=now;
  if(transition){transition.elapsed+=frameDt;if(transition.phase===0){arrowFade=Math.max(0,1-transition.elapsed/.18);if(arrowFade===0){if(transition.kind==='reset')resetState();else{sign*=-1;selected=[];for(const v of views)if(v.right&&v.camera)v.camera.z*=-1}transition.phase=1;transition.elapsed=0}}else{arrowFade=Math.min(1,transition.elapsed/.18);if(arrowFade===1)transition=null}ui()}
 
@@ -1869,6 +1872,8 @@ function frame(now){flushPendingGrips();const followDt=lastFrame?Math.max(0,(now
  if(!transition&&horizontalKey(horizontal)!==horizontalKey(targetHorizontal)){horizontal=normalizeHorizontal(horizontal.map((a,i)=>{const delta=targetHorizontal[i].map((x,j)=>x-a[j]),r=Math.hypot(...delta);if(r<1e-6)return [...targetHorizontal[i]];const f=Math.min(1-Math.exp(-followDt/.085),.35*followDt/r);return a.map((x,j)=>x+f*delta[j])}));dirty=true}
  // Current sparse display has no idle-time animation. Keep RAF and all state
  // following above alive; redraw only after an explicit visual invalidation.
+ if(dirty){surfaceRefined=false;lastSurfaceDraw=now}else if(!surfaceRefined&&now-lastSurfaceDraw>160){surfaceRefined=true;dirty=true}
+ for(const v of views)v.sheetRefined=surfaceRefined;
  if(!dirty){requestAnimationFrame(frame);return}
  sharedSamples=[];
  if(depths.join(',')!==flowDepths||lateral!==flowLateral||horizontalKey(horizontal)!==flowHorizontal||rotationKey(rotation)!==flowRotation||sign!==flowSign){prepareCriticalSnapshot(now);flowDepths=depths.join(',');flowLateral=lateral;flowHorizontal=horizontalKey(horizontal);flowRotation=rotationKey(rotation);flowSign=sign}
@@ -2600,8 +2605,8 @@ function start(kind){
   if(v.canvas.width!==Math.round(v.w*v.d)||v.canvas.height!==Math.round(v.h*v.d)){v.canvas.width=Math.round(v.w*v.d);v.canvas.height=Math.round(v.h*v.d);v.cache=null}return r;
  }
  function path(ctx,ps,close=false){ctx.beginPath();ps.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1]));if(close)ctx.closePath()}
- function raster(v){const key=[sequence,v.w,v.h,v.zoom,v.yaw,v.pitch,v.centerX,v.centerZ].join(':');if(v.cache?.key===key)return v.cache;const w=Math.ceil(v.w),h=Math.ceil(v.h),counts=new Uint8Array(w*h),depth=new Float32Array(w*h);depth.fill(-Infinity);const qs=geometry.points.map(p=>project(v.right?target(p):p,v));for(const tri of geometry.triangles){const[a,b,c]=tri.map(i=>qs[i]);rasterizeSheetTriangle(counts,w,h,a[0],a[1],b[0],b[1],c[0],c[1],depth,a[2],b[2],c[2])}const shade=gentleMeshShade(qs.map(q=>[q[0],q[1],q[2]*v.scale]),geometry.triangles,w,h);const canvas=document.createElement('canvas');canvas.width=w;canvas.height=h;const ctx=canvas.getContext('2d'),image=ctx.createImageData(w,h);for(let i=0;i<counts.length;i++){image.data[i*4]=157*shade[i];image.data[i*4+1]=143*shade[i];image.data[i*4+2]=119*shade[i];image.data[i*4+3]=Math.round(255*grazingOpacity(1-Math.pow(.86,counts[i]),shade.grazing[i]))}ctx.putImageData(image,0,0);return v.cache={key,canvas,depth,w,h}}
- function hidden(q,v){const c=v.cache,x=Math.round(q[0]),y=Math.round(q[1]);return c&&x>=0&&y>=0&&x<c.w&&y<c.h&&c.depth[y*c.w+x]-q[2]>Math.max(.008,1.2/v.scale)}
+ function raster(v){const key=[sequence,v.w,v.h,v.zoom,v.yaw,v.pitch,v.centerX,v.centerZ].join(':');if(v.cache?.key===key)return v.cache;const sampling=Math.min(2,Math.max(1,v.d||1),Math.sqrt(1000000/Math.max(1,v.w*v.h))),w=Math.ceil(v.w*sampling),h=Math.ceil(v.h*sampling),sx=w/v.w,sy=h/v.h,counts=new Uint8Array(w*h),depth=new Float32Array(w*h);depth.fill(-Infinity);const qs=geometry.points.map(p=>{const q=project(v.right?target(p):p,v);return[q[0]*sx,q[1]*sy,q[2]]});for(const tri of geometry.triangles){const[a,b,c]=tri.map(i=>qs[i]);rasterizeSheetTriangle(counts,w,h,a[0],a[1],b[0],b[1],c[0],c[1],depth,a[2],b[2],c[2])}const shade=gentleMeshShade(qs.map(q=>[q[0],q[1],q[2]*v.scale*Math.sqrt(sx*sy)]),geometry.triangles,w,h);const canvas=document.createElement('canvas');canvas.width=w;canvas.height=h;const ctx=canvas.getContext('2d'),image=ctx.createImageData(w,h);for(let i=0;i<counts.length;i++){image.data[i*4]=157*shade[i];image.data[i*4+1]=143*shade[i];image.data[i*4+2]=119*shade[i];image.data[i*4+3]=Math.round(255*grazingOpacity(1-Math.pow(.86,counts[i]),shade.grazing[i]))}ctx.putImageData(image,0,0);return v.cache={key,canvas,depth,w,h,sx,sy}}
+ function hidden(q,v){const c=v.cache,x=Math.floor(q[0]*(c?.sx||1)),y=Math.floor(q[1]*(c?.sy||1));return c&&x>=0&&y>=0&&x<c.w&&y<c.h&&c.depth[y*c.w+x]-q[2]>Math.max(.008,1.2/v.scale)}
  function marker(ctx,c,q,size=1){if(c.m===null){path(ctx,[[q[0]-5*size,q[1]-5*size],[q[0]+5*size,q[1]+5*size]]);ctx.stroke();path(ctx,[[q[0]-5*size,q[1]+5*size],[q[0]+5*size,q[1]-5*size]]);ctx.stroke()}else{if(c.m===1)path(ctx,[[q[0],q[1]-6*size],[q[0]+6*size,q[1]],[q[0],q[1]+6*size],[q[0]-6*size,q[1]]],true);else if(c.m===2)path(ctx,[[q[0]-5*size,q[1]-5*size],[q[0]+5*size,q[1]-5*size],[q[0]+5*size,q[1]+5*size],[q[0]-5*size,q[1]+5*size]],true);else{ctx.beginPath();ctx.arc(q[0],q[1],5*size,0,TAU)}ctx.fill();ctx.stroke()}}
  function render(v){dimensions(v);const ctx=v.canvas.getContext('2d');ctx.setTransform(v.d,0,0,v.d,0,0);ctx.clearRect(0,0,v.w,v.h);ctx.drawImage(raster(v).canvas,0,0,v.w,v.h);const cps=geometry.result.roots,criticalDraw=cps.map(c=>({c,q:project(position(c.p,v),v)}));
   const multipleCurves=multiplePointCurves(kind).map(ps=>ps.map(p=>v.right?target(p):p));v.multiplePointStats=drawMultiplePointCurves(ctx,multipleCurves,p=>project(p,v),p=>hidden(project(p,v),v));
