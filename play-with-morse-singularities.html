@@ -337,6 +337,23 @@ trajectoryToggle.onchange=()=>{
 };
 select.onchange=()=>{const u=new URL(location.href);if(select.value==='sphere')u.searchParams.delete('surface');else u.searchParams.set('surface',select.value);location.href=u.href};
 
+// Soft two-sided normal lighting. Connectivity is that of the source mesh:
+// coincident points on different sheets are never welded or averaged.
+function gentleLight(n){const l=Math.hypot(...n);if(l<1e-12)return 1;const d=Math.abs((-.38*n[0]-.57*n[1]+.73*n[2])/l);return .78+.40*d}
+function gentleMeshShade(points,triangles,width,height){
+ const normals=points.map(()=>[0,0,0]);
+ for(const t of triangles){const [a,b,c]=t.map(i=>points[i]),u=b.map((x,k)=>x-a[k]),v=c.map((x,k)=>x-a[k]);
+  const n=[u[1]*v[2]-u[2]*v[1],u[2]*v[0]-u[0]*v[2],u[0]*v[1]-u[1]*v[0]];
+  for(const i of t){const q=normals[i],sign=q[0]*n[0]+q[1]*n[1]+q[2]*n[2]<0?-1:1;for(let k=0;k<3;k++)q[k]+=sign*n[k]}
+ }
+ const light=normals.map(gentleLight),shade=new Float32Array(width*height),front=new Float64Array(width*height);shade.fill(1);front.fill(-Infinity);
+ for(const t of triangles){const [a,b,c]=t.map(i=>points[i]),area=(b[0]-a[0])*(c[1]-a[1])-(b[1]-a[1])*(c[0]-a[0]);if(Math.abs(area)<1e-12)continue;
+  const xmin=Math.max(0,Math.ceil(Math.min(a[0],b[0],c[0])-.5)),xmax=Math.min(width-1,Math.floor(Math.max(a[0],b[0],c[0])-.5)),ymin=Math.max(0,Math.ceil(Math.min(a[1],b[1],c[1])-.5)),ymax=Math.min(height-1,Math.floor(Math.max(a[1],b[1],c[1])-.5));
+  for(let y=ymin;y<=ymax;y++)for(let x=xmin;x<=xmax;x++){const px=x+.5,py=y+.5,w1=((px-a[0])*(c[1]-a[1])-(py-a[1])*(c[0]-a[0]))/area,w2=((b[0]-a[0])*(py-a[1])-(b[1]-a[1])*(px-a[0]))/area,w0=1-w1-w2;if(Math.min(w0,w1,w2)<-1e-9)continue;const k=y*width+x,d=w0*a[2]+w1*b[2]+w2*c[2];if(d>front[k]){front[k]=d;shade[k]=w0*light[t[0]]+w1*light[t[1]]+w2*light[t[2]]}}
+ }
+ return shade;
+}
+
 if(kind==='sphere'){
 const __wasm_height_jet=(()=>{
 // Snapshot the ordinary host norm; altered observers stay on the JS trace path.
@@ -1586,14 +1603,17 @@ function rasterizeSheetSurface(view,state={},options={}){
    triangle(a,b,c);triangle(a,c,d);
   }
  }
+ let shade;
+ if(projected){const points=Array.from(projected.depths,(d,i)=>[projected[2*i],projected[2*i+1],d*view.scale*sampleWidth/view.w]),triangles=[];for(let i=0;i<rows;i++)for(let j=0;j<cols;j++){const a=i*cols+j,b=i*cols+(j+1)%cols,c=(i+1)*cols+(j+1)%cols,d=(i+1)*cols+j;triangles.push([a,b,c],[a,c,d])}shade=gentleMeshShade(points,triangles,sampleWidth,sampleHeight)}
+ else{shade=new Float32Array(counts.length);shade.fill(1);for(let y=0;y<sampleHeight;y++)for(let x=0;x<sampleWidth;x++){const k=y*sampleWidth+x;if(counts[k]){const u=((x+.5)*view.w/sampleWidth-view.cx)/view.scale+(view.centerX||0),z=(view.cy-(y+.5)*view.h/sampleHeight)/view.scale+(view.centerZ||0);shade[k]=gentleLight([u,-z,frontDepth[k]])}}}
  const refinedPixels=0; // All multiplicities retained; no invalid graph inverse refinement.
  const data=new Uint8ClampedArray(width*height*4),histogram=[],alpha=Array.from({length:256},(_,n)=>sheetAlpha(n));
  let maxCount=0;
  for(const n of counts){histogram[n]=(histogram[n]||0)+1;if(n>maxCount)maxCount=n}
  for(let y=0;y<height;y++)for(let x=0;x<width;x++){
-  let opacity=0;
-  for(let sy=0;sy<samples;sy++)for(let sx=0;sx<samples;sx++)opacity+=alpha[counts[(y*samples+sy)*sampleWidth+x*samples+sx]];
-  const k=4*(y*width+x);data[k]=SHEET_COLOR[0];data[k+1]=SHEET_COLOR[1];data[k+2]=SHEET_COLOR[2];data[k+3]=Math.round(255*opacity/(samples*samples));
+  let opacity=0,lit=0;
+  for(let sy=0;sy<samples;sy++)for(let sx=0;sx<samples;sx++){const i=(y*samples+sy)*sampleWidth+x*samples+sx,a=alpha[counts[i]];opacity+=a;lit+=a*shade[i]}
+  const k=4*(y*width+x);const lighting=opacity?lit/opacity:1;data[k]=SHEET_COLOR[0]*lighting;data[k+1]=SHEET_COLOR[1]*lighting;data[k+2]=SHEET_COLOR[2]*lighting;data[k+3]=Math.round(255*opacity/(samples*samples));
  }
  return {width,height,sampleWidth,sampleHeight,counts,frontDepth,data,maxCount,histogram,rows,cols,refinedPixels,projected};
 }
@@ -2575,7 +2595,7 @@ function start(kind){
   if(v.canvas.width!==Math.round(v.w*v.d)||v.canvas.height!==Math.round(v.h*v.d)){v.canvas.width=Math.round(v.w*v.d);v.canvas.height=Math.round(v.h*v.d);v.cache=null}return r;
  }
  function path(ctx,ps,close=false){ctx.beginPath();ps.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1]));if(close)ctx.closePath()}
- function raster(v){const key=[sequence,v.w,v.h,v.zoom,v.yaw,v.pitch,v.centerX,v.centerZ].join(':');if(v.cache?.key===key)return v.cache;const w=Math.ceil(v.w),h=Math.ceil(v.h),counts=new Uint8Array(w*h),depth=new Float32Array(w*h);depth.fill(-Infinity);const qs=geometry.points.map(p=>project(v.right?target(p):p,v));for(const tri of geometry.triangles){const[a,b,c]=tri.map(i=>qs[i]);rasterizeSheetTriangle(counts,w,h,a[0],a[1],b[0],b[1],c[0],c[1],depth,a[2],b[2],c[2])}const canvas=document.createElement('canvas');canvas.width=w;canvas.height=h;const ctx=canvas.getContext('2d'),image=ctx.createImageData(w,h);for(let i=0;i<counts.length;i++){image.data[i*4]=157;image.data[i*4+1]=143;image.data[i*4+2]=119;image.data[i*4+3]=Math.round(255*(1-Math.pow(.86,counts[i])))}ctx.putImageData(image,0,0);return v.cache={key,canvas,depth,w,h}}
+ function raster(v){const key=[sequence,v.w,v.h,v.zoom,v.yaw,v.pitch,v.centerX,v.centerZ].join(':');if(v.cache?.key===key)return v.cache;const w=Math.ceil(v.w),h=Math.ceil(v.h),counts=new Uint8Array(w*h),depth=new Float32Array(w*h);depth.fill(-Infinity);const qs=geometry.points.map(p=>project(v.right?target(p):p,v));for(const tri of geometry.triangles){const[a,b,c]=tri.map(i=>qs[i]);rasterizeSheetTriangle(counts,w,h,a[0],a[1],b[0],b[1],c[0],c[1],depth,a[2],b[2],c[2])}const shade=gentleMeshShade(qs.map(q=>[q[0],q[1],q[2]*v.scale]),geometry.triangles,w,h);const canvas=document.createElement('canvas');canvas.width=w;canvas.height=h;const ctx=canvas.getContext('2d'),image=ctx.createImageData(w,h);for(let i=0;i<counts.length;i++){image.data[i*4]=157*shade[i];image.data[i*4+1]=143*shade[i];image.data[i*4+2]=119*shade[i];image.data[i*4+3]=Math.round(255*(1-Math.pow(.86,counts[i])))}ctx.putImageData(image,0,0);return v.cache={key,canvas,depth,w,h}}
  function hidden(q,v){const c=v.cache,x=Math.round(q[0]),y=Math.round(q[1]);return c&&x>=0&&y>=0&&x<c.w&&y<c.h&&c.depth[y*c.w+x]-q[2]>Math.max(.008,1.2/v.scale)}
  function marker(ctx,c,q,size=1){if(c.m===null){path(ctx,[[q[0]-5*size,q[1]-5*size],[q[0]+5*size,q[1]+5*size]]);ctx.stroke();path(ctx,[[q[0]-5*size,q[1]+5*size],[q[0]+5*size,q[1]-5*size]]);ctx.stroke()}else{if(c.m===1)path(ctx,[[q[0],q[1]-6*size],[q[0]+6*size,q[1]],[q[0],q[1]+6*size],[q[0]-6*size,q[1]]],true);else if(c.m===2)path(ctx,[[q[0]-5*size,q[1]-5*size],[q[0]+5*size,q[1]-5*size],[q[0]+5*size,q[1]+5*size],[q[0]-5*size,q[1]+5*size]],true);else{ctx.beginPath();ctx.arc(q[0],q[1],5*size,0,TAU)}ctx.fill();ctx.stroke()}}
  function render(v){dimensions(v);const ctx=v.canvas.getContext('2d');ctx.setTransform(v.d,0,0,v.d,0,0);ctx.clearRect(0,0,v.w,v.h);ctx.drawImage(raster(v).canvas,0,0,v.w,v.h);const cps=geometry.result.roots,criticalDraw=cps.map(c=>({c,q:project(position(c.p,v),v)}));
