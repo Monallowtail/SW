@@ -1,5 +1,9 @@
 # Torus deformation audit
 
+Historical audit for commit `a8305e8`. Run these scripts against that commit.
+The current independent-control implementation and tests are documented in
+[`../torus-local/README.md`](../torus-local/README.md).
+
 The two standalone HTML pages contain the same torus map in the main thread
 and worker. The older root-level JavaScript modules are not the sources of these
 standalone bundles. Sphere deformation and the other surface maps are unchanged.

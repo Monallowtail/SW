@@ -1,0 +1,2 @@
+const fs=require('fs'),vm=require('vm');
+module.exports=function(file,exports){const s=fs.readFileSync(file,'utf8'),w=JSON.parse([...s.matchAll(/new Blob\(\[("(?:[^"\\]|\\.)*")\]/g)].at(-1)[1]).replace('return {computeCritical,computeSurfaceState,gradientCurves,heightEngine};','return {computeCritical,computeSurfaceState,gradientCurves,heightEngine,numerical};'),c={self:{},performance};vm.createContext(c);vm.runInContext(w+'\nglobalThis.api={'+exports+'};',c);return c.api};

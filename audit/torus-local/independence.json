@@ -1,0 +1,11 @@
+{
+  "samples": 16000,
+  "minDet": 0.13175873617153921,
+  "maxInverseError": 7.327471962526033e-15,
+  "maxOutsideDisplacement": 0,
+  "maxOtherPatchDisplacement": 0,
+  "maxCombinedError": 0,
+  "maxCrossPageError": 0,
+  "maxBoundaryDerivativeError": 6.551204023708124e-12,
+  "analyticDetLowerBound": 0.04173327804759763
+}

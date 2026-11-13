@@ -1,0 +1,33 @@
+{
+  "maps": [
+    {
+      "kind": "genus2",
+      "maxMapDifference": 0
+    },
+    {
+      "kind": "genus3",
+      "maxMapDifference": 0
+    },
+    {
+      "kind": "klein",
+      "maxMapDifference": 0
+    },
+    {
+      "kind": "klein8",
+      "maxMapDifference": 0
+    },
+    {
+      "kind": "rp2",
+      "maxMapDifference": 0
+    },
+    {
+      "kind": "roman",
+      "maxMapDifference": 0
+    }
+  ],
+  "unchangedSphereModules": [
+    "__elastic",
+    "__height_engine",
+    "__critical"
+  ]
+}
