@@ -771,18 +771,22 @@ return {rasterizeSheetTriangle};
 const __framing=(()=>{
 const {rotation}=__geometry;
 const CAMERA={yaw:.82,pitch:.32};
+// Keep the world-space screen and both view scales independent of the
+// current silhouette. Reserve a rotation-invariant envelope per surface.
+const frameCache=new Map();
 function measureFraming(g){
- const points=[...g.points];
- for(const c of g.components){for(const p of c.path)points.push(p.q);for(const p of c.cusps)points.push(p.q)}
- let maxAbs=0,maxUpperX=-Infinity;
- for(const p of points){maxAbs=Math.max(maxAbs,Math.abs(p[0]),Math.abs(p[2]));maxUpperX=Math.max(maxUpperX,rotation(p,CAMERA.yaw,CAMERA.pitch)[0])}
- const extent=Math.ceil(Math.max(1.65,maxAbs+.25)*20)/20;
- const depth=Math.min(-3.5,-(maxUpperX+.35+Math.cos(CAMERA.yaw)*extent)/Math.sin(CAMERA.yaw));
+ const kind=g.state.surface||'sphere';
+ if(frameCache.has(kind))return frameCache.get(kind);
+ const radius=kind==='sphere'?1.6:Math.ceil((Math.max(...g.points.map(p=>Math.hypot(...p)))+.05)*20)/20;
+ const extent=Math.max(1.65,radius+.15);
+ const depth=Math.min(-3.5,-(radius+.35+Math.cos(CAMERA.yaw)*extent)/Math.sin(CAMERA.yaw));
  const corners=[[-extent,depth,-extent],[extent,depth,-extent],[extent,depth,extent],[-extent,depth,extent]];
- const min=[Infinity,Infinity],max=[-Infinity,-Infinity];
- for(const p of [...points,...corners]){const q=rotation(p,CAMERA.yaw,CAMERA.pitch);for(let i=0;i<2;i++){const v=q[i?2:0];min[i]=Math.min(min[i],v);max[i]=Math.max(max[i],v)}}
- const frontHalf=Math.max(1.12,maxAbs+.12);
- return {extent,depth,corners,maxAbs,upper:{center:min.map((v,i)=>(v+max[i])/2),span:min.map((v,i)=>max[i]-v)},front:{center:[0,0],span:[2*frontHalf,2*frontHalf]}};
+ const min=[-radius,-radius],max=[radius,radius];
+ for(const p of corners){const q=rotation(p,CAMERA.yaw,CAMERA.pitch);for(let i=0;i<2;i++){const v=q[i?2:0];min[i]=Math.min(min[i],v);max[i]=Math.max(max[i],v)}}
+ const frontHalf=radius+.12;
+ const frame={extent,depth,corners,maxAbs:radius,upper:{center:min.map((v,i)=>(v+max[i])/2),span:min.map((v,i)=>max[i]-v)},front:{center:[0,0],span:[2*frontHalf,2*frontHalf]}};
+ frameCache.set(kind,frame);
+ return frame;
 }
 
 return {CAMERA,measureFraming};
