@@ -1,0 +1,26 @@
+[
+  {
+    "mobile": false,
+    "components": 2,
+    "clickTapToggle": true,
+    "formulaSelection": true,
+    "dragAndCancellationDoNotSelect": true,
+    "zoomSelection": true,
+    "pinchDoesNotSelect": false,
+    "fixedFrame": true,
+    "fullWidthInput": true,
+    "errors": []
+  },
+  {
+    "mobile": true,
+    "components": 2,
+    "clickTapToggle": true,
+    "formulaSelection": true,
+    "dragAndCancellationDoNotSelect": true,
+    "zoomSelection": true,
+    "pinchDoesNotSelect": true,
+    "fixedFrame": true,
+    "fullWidthInput": true,
+    "errors": []
+  }
+]

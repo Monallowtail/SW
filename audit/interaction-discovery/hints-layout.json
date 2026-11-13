@@ -1,0 +1,50 @@
+[
+  {
+    "type": "morse",
+    "mobile": false,
+    "hintOncePerSession": true,
+    "mouseOrTouchDeformation": true,
+    "rotationHidesHint": true,
+    "resetAndReloadKeepDismissed": true,
+    "helpDirections": true,
+    "fullSizeDiagrams": true,
+    "footerVisible": false,
+    "errors": []
+  },
+  {
+    "type": "contour",
+    "mobile": false,
+    "hintOncePerSession": true,
+    "mouseOrTouchDeformation": true,
+    "rotationHidesHint": true,
+    "resetAndReloadKeepDismissed": true,
+    "helpDirections": true,
+    "fullSizeDiagrams": true,
+    "footerVisible": false,
+    "errors": []
+  },
+  {
+    "type": "morse",
+    "mobile": true,
+    "hintOncePerSession": true,
+    "mouseOrTouchDeformation": true,
+    "rotationHidesHint": true,
+    "resetAndReloadKeepDismissed": true,
+    "helpDirections": true,
+    "fullSizeDiagrams": true,
+    "footerVisible": true,
+    "errors": []
+  },
+  {
+    "type": "contour",
+    "mobile": true,
+    "hintOncePerSession": true,
+    "mouseOrTouchDeformation": true,
+    "rotationHidesHint": true,
+    "resetAndReloadKeepDismissed": true,
+    "helpDirections": true,
+    "fullSizeDiagrams": true,
+    "footerVisible": true,
+    "errors": []
+  }
+]
