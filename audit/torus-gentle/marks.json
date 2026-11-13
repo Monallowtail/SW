@@ -1,0 +1,66 @@
+[
+  {
+    "type": "morse",
+    "kind": "sphere",
+    "mobile": false,
+    "marks": 8,
+    "rotationMovedMarks": true,
+    "depthUnchanged": true
+  },
+  {
+    "type": "morse",
+    "kind": "torus",
+    "mobile": false,
+    "marks": 4,
+    "rotationMovedMarks": true,
+    "depthUnchanged": true
+  },
+  {
+    "type": "contour",
+    "kind": "sphere",
+    "mobile": false,
+    "marks": 4,
+    "rotationMovedMarks": true,
+    "depthUnchanged": true
+  },
+  {
+    "type": "contour",
+    "kind": "torus",
+    "mobile": false,
+    "marks": 4,
+    "rotationMovedMarks": true,
+    "depthUnchanged": true
+  },
+  {
+    "type": "morse",
+    "kind": "sphere",
+    "mobile": true,
+    "marks": 8,
+    "rotationMovedMarks": true,
+    "depthUnchanged": true
+  },
+  {
+    "type": "morse",
+    "kind": "torus",
+    "mobile": true,
+    "marks": 4,
+    "rotationMovedMarks": true,
+    "depthUnchanged": true
+  },
+  {
+    "type": "contour",
+    "kind": "sphere",
+    "mobile": true,
+    "marks": 4,
+    "rotationMovedMarks": true,
+    "depthUnchanged": true
+  },
+  {
+    "type": "contour",
+    "kind": "torus",
+    "mobile": true,
+    "marks": 4,
+    "rotationMovedMarks": true,
+    "depthUnchanged": true
+  }
+]

@@ -1,3 +1,5 @@
+> Historical audit for commit 182d0a0. The current gentler deformation is documented in [../torus-gentle/README.md](../torus-gentle/README.md).
+
 # Independent torus controls and fixed views
 
 This audit supersedes the deformation tests in `audit/torus`, which describe

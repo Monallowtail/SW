@@ -1,0 +1,22 @@
+[
+  {
+    "type": "morse",
+    "mobile": false,
+    "passed": true
+  },
+  {
+    "type": "contour",
+    "mobile": false,
+    "passed": true
+  },
+  {
+    "type": "morse",
+    "mobile": true,
+    "passed": true
+  },
+  {
+    "type": "contour",
+    "mobile": true,
+    "passed": true
+  }
+]
