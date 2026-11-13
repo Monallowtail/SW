@@ -1,0 +1,7 @@
+{
+  "samples": 16000,
+  "extremeSliderCombinations": 16,
+  "minDet": 0.2158782221905856,
+  "maxInverseError": 6.280369834735101e-16,
+  "analyticGlobalLowerBound": 0.07785594867380653
+}

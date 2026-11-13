@@ -1,0 +1,29 @@
+{
+  "maps": [
+    {
+      "kind": "genus2",
+      "error": 0
+    },
+    {
+      "kind": "genus3",
+      "error": 0
+    },
+    {
+      "kind": "klein",
+      "error": 0
+    },
+    {
+      "kind": "klein8",
+      "error": 0
+    },
+    {
+      "kind": "rp2",
+      "error": 0
+    },
+    {
+      "kind": "roman",
+      "error": 0
+    }
+  ],
+  "morseSphereBranchByteIdentical": true
+}
