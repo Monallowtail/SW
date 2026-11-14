@@ -1,0 +1,122 @@
+[
+  {
+    "angle": 24,
+    "depth": -0.2,
+    "valid": true,
+    "counts": [
+      1,
+      3,
+      2
+    ]
+  },
+  {
+    "angle": 24,
+    "depth": -0.3,
+    "valid": true,
+    "counts": [
+      1,
+      3,
+      2
+    ]
+  },
+  {
+    "angle": 24,
+    "depth": -0.4,
+    "valid": true,
+    "counts": [
+      1,
+      3,
+      2
+    ]
+  },
+  {
+    "angle": 18,
+    "depth": -0.2,
+    "valid": true,
+    "counts": [
+      1,
+      3,
+      2
+    ]
+  },
+  {
+    "angle": 18,
+    "depth": -0.3,
+    "valid": true,
+    "counts": [
+      1,
+      3,
+      2
+    ]
+  },
+  {
+    "angle": 18,
+    "depth": -0.4,
+    "valid": true,
+    "counts": [
+      1,
+      3,
+      2
+    ]
+  },
+  {
+    "angle": 10,
+    "depth": -0.2,
+    "valid": true,
+    "counts": [
+      1,
+      2,
+      1
+    ]
+  },
+  {
+    "angle": 10,
+    "depth": -0.3,
+    "valid": true,
+    "counts": [
+      1,
+      2,
+      1
+    ]
+  },
+  {
+    "angle": 10,
+    "depth": -0.4,
+    "valid": true,
+    "counts": [
+      1,
+      3,
+      2
+    ]
+  },
+  {
+    "angle": 0,
+    "depth": -0.2,
+    "valid": true,
+    "counts": [
+      1,
+      2,
+      1
+    ]
+  },
+  {
+    "angle": 0,
+    "depth": -0.3,
+    "valid": true,
+    "counts": [
+      1,
+      2,
+      1
+    ]
+  },
+  {
+    "angle": 0,
+    "depth": -0.4,
+    "valid": true,
+    "counts": [
+      1,
+      2,
+      1
+    ]
+  }
+]

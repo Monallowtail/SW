@@ -1,0 +1,76 @@
+[
+  {
+    "depth": 0,
+    "yaw": 0,
+    "pitch": 0.6,
+    "levels": [
+      {
+        "level": 4,
+        "cusps": 0,
+        "degrees": [
+          -2,
+          2
+        ],
+        "valid": true,
+        "residual": 1.9405455382852905e-10
+      },
+      {
+        "level": 5,
+        "cusps": 0,
+        "degrees": [
+          -2,
+          2
+        ],
+        "valid": true,
+        "residual": 1.9877342301600302e-10
+      },
+      {
+        "level": 6,
+        "cusps": 0,
+        "degrees": [
+          -2,
+          2
+        ],
+        "valid": true,
+        "residual": 1.9623745081778924e-10
+      }
+    ]
+  },
+  {
+    "depth": -0.55,
+    "yaw": 0,
+    "pitch": 0.6,
+    "levels": [
+      {
+        "level": 4,
+        "cusps": 2,
+        "degrees": [
+          2,
+          -2
+        ],
+        "valid": true,
+        "residual": 1.9405455382852905e-10
+      },
+      {
+        "level": 5,
+        "cusps": 2,
+        "degrees": [
+          2,
+          -2
+        ],
+        "valid": true,
+        "residual": 1.9877342301600302e-10
+      },
+      {
+        "level": 6,
+        "cusps": 2,
+        "degrees": [
+          2,
+          -2
+        ],
+        "valid": true,
+        "residual": 1.9623745081778924e-10
+      }
+    ]
+  }
+]

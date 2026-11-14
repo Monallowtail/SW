@@ -1,0 +1,22 @@
+[
+  {
+    "morse": true,
+    "angle": -1.1519173063162575,
+    "samples": 16000,
+    "conjugacy": 9.930136612989092e-16,
+    "outside": 5.551115123125783e-16,
+    "independence": 0,
+    "combined": 1.6653345369377348e-15,
+    "analyticDetLowerBound": 0.0528306865792162
+  },
+  {
+    "morse": false,
+    "angle": 0.013811754886075039,
+    "samples": 16000,
+    "conjugacy": 1.332339907734402e-15,
+    "outside": 4.965068306494546e-16,
+    "independence": 3.469446951953614e-18,
+    "combined": 1.4895204919483639e-15,
+    "analyticDetLowerBound": 0.0528306865792162
+  }
+]
