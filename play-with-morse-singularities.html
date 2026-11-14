@@ -2800,7 +2800,7 @@ __standalone_entry.launch(kind);
  function queueScrollCue(){if(!cueFrame)cueFrame=requestAnimationFrame(updateScrollCue)}
  addEventListener('scroll',queueScrollCue,{passive:true});addEventListener('resize',queueScrollCue);new ResizeObserver(queueScrollCue).observe(document.body);queueScrollCue();
  const canvas=document.getElementById('right'),host=canvas.parentElement,key='surface-drag-hint:morse-singularities';
- const hint=document.createElement('span');hint.className='first-drag-hint';hint.textContent='輪をドラッグ';hint.hidden=true;host.append(hint);
+ const hint=document.createElement('span');hint.className='first-drag-hint';hint.textContent='マーカーをドラッグ';hint.hidden=true;host.append(hint);
  let done=false,lastPoint=null;try{done=sessionStorage.getItem(key)==='done'}catch{}
  const deforming=()=>document.getElementById('deform').getAttribute('aria-pressed')==='true';
  function dismiss(){done=true;hint.hidden=true;try{sessionStorage.setItem(key,'done')}catch{}}
