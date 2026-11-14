@@ -1,0 +1,409 @@
+{
+  "morse": [
+    {
+      "depths": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "counts": [
+        1,
+        2,
+        1
+      ],
+      "valid": true,
+      "residual": 2.482534153247273e-12
+    },
+    {
+      "depths": [
+        -0.4,
+        0,
+        0,
+        0
+      ],
+      "counts": [
+        1,
+        2,
+        1
+      ],
+      "valid": true,
+      "residual": 4.5775667985222374e-12
+    },
+    {
+      "depths": [
+        0.55,
+        0,
+        0,
+        0
+      ],
+      "counts": [
+        1,
+        2,
+        1
+      ],
+      "valid": true,
+      "residual": 1.3877787807814457e-12
+    },
+    {
+      "depths": [
+        0,
+        -0.55,
+        0,
+        0
+      ],
+      "counts": [
+        1,
+        2,
+        1
+      ],
+      "valid": true,
+      "residual": 2.5589376332604516e-12
+    },
+    {
+      "depths": [
+        0,
+        0,
+        -0.55,
+        0
+      ],
+      "counts": [
+        2,
+        3,
+        1
+      ],
+      "valid": true,
+      "residual": 1.6107801901806728e-11
+    },
+    {
+      "depths": [
+        0,
+        0,
+        0,
+        -0.55
+      ],
+      "counts": [
+        1,
+        2,
+        1
+      ],
+      "valid": true,
+      "residual": 1.5700924586837752e-12
+    },
+    {
+      "depths": [
+        -0.55,
+        -0.55,
+        -0.55,
+        -0.55
+      ],
+      "counts": [
+        2,
+        4,
+        2
+      ],
+      "valid": true,
+      "residual": 1.6107801901806728e-11
+    },
+    {
+      "depths": [
+        0.55,
+        -0.55,
+        0.55,
+        -0.55
+      ],
+      "counts": [
+        1,
+        2,
+        1
+      ],
+      "valid": true,
+      "residual": 2.5589376332604516e-12
+    }
+  ],
+  "contours": [
+    {
+      "depth": 0,
+      "levels": [
+        {
+          "level": 4,
+          "cusps": 0,
+          "degrees": [
+            [
+              -2,
+              0
+            ],
+            [
+              2,
+              0
+            ]
+          ],
+          "total": 0,
+          "residual": 1.9510819644437735e-10
+        },
+        {
+          "level": 5,
+          "cusps": 0,
+          "degrees": [
+            [
+              -2,
+              0
+            ],
+            [
+              2,
+              0
+            ]
+          ],
+          "total": 0,
+          "residual": 1.9183214442094262e-10
+        },
+        {
+          "level": 6,
+          "cusps": 0,
+          "degrees": [
+            [
+              -2,
+              0
+            ],
+            [
+              2,
+              0
+            ]
+          ],
+          "total": 0,
+          "residual": 1.9915943619849799e-10
+        }
+      ]
+    },
+    {
+      "depth": -0.2,
+      "levels": [
+        {
+          "level": 4,
+          "cusps": 0,
+          "degrees": [
+            [
+              -2,
+              0
+            ],
+            [
+              2,
+              0
+            ]
+          ],
+          "total": 0,
+          "residual": 1.9510819644437735e-10
+        },
+        {
+          "level": 5,
+          "cusps": 0,
+          "degrees": [
+            [
+              -2,
+              0
+            ],
+            [
+              2,
+              0
+            ]
+          ],
+          "total": 0,
+          "residual": 1.8057365091104275e-10
+        },
+        {
+          "level": 6,
+          "cusps": 0,
+          "degrees": [
+            [
+              -2,
+              0
+            ],
+            [
+              2,
+              0
+            ]
+          ],
+          "total": 0,
+          "residual": 1.982168402304163e-10
+        }
+      ]
+    },
+    {
+      "depth": -0.4,
+      "levels": [
+        {
+          "level": 4,
+          "cusps": 0,
+          "degrees": [
+            [
+              -2,
+              0
+            ],
+            [
+              2,
+              0
+            ]
+          ],
+          "total": 0,
+          "residual": 1.9510819644437735e-10
+        },
+        {
+          "level": 5,
+          "cusps": 0,
+          "degrees": [
+            [
+              -2,
+              0
+            ],
+            [
+              2,
+              0
+            ]
+          ],
+          "total": 0,
+          "residual": 1.8057365091104275e-10
+        },
+        {
+          "level": 6,
+          "cusps": 0,
+          "degrees": [
+            [
+              -2,
+              0
+            ],
+            [
+              2,
+              0
+            ]
+          ],
+          "total": 0,
+          "residual": 1.982168402304163e-10
+        }
+      ]
+    },
+    {
+      "depth": -0.55,
+      "levels": [
+        {
+          "level": 4,
+          "cusps": 0,
+          "degrees": [
+            [
+              -2,
+              0
+            ],
+            [
+              2,
+              0
+            ]
+          ],
+          "total": 0,
+          "residual": 1.9510819644437735e-10
+        },
+        {
+          "level": 5,
+          "cusps": 0,
+          "degrees": [
+            [
+              -2,
+              0
+            ],
+            [
+              2,
+              0
+            ]
+          ],
+          "total": 0,
+          "residual": 1.8057365091104275e-10
+        },
+        {
+          "level": 6,
+          "cusps": 0,
+          "degrees": [
+            [
+              -2,
+              0
+            ],
+            [
+              2,
+              0
+            ]
+          ],
+          "total": 0,
+          "residual": 1.993268871854899e-10
+        }
+      ]
+    },
+    {
+      "depth": 0.55,
+      "levels": [
+        {
+          "level": 4,
+          "cusps": 0,
+          "degrees": [
+            [
+              -2,
+              0
+            ],
+            [
+              2,
+              0
+            ]
+          ],
+          "total": 0,
+          "residual": 1.9510819644437735e-10
+        },
+        {
+          "level": 5,
+          "cusps": 0,
+          "degrees": [
+            [
+              -2,
+              0
+            ],
+            [
+              2,
+              0
+            ]
+          ],
+          "total": 0,
+          "residual": 1.8057365091104275e-10
+        },
+        {
+          "level": 6,
+          "cusps": 0,
+          "degrees": [
+            [
+              -2,
+              0
+            ],
+            [
+              2,
+              0
+            ]
+          ],
+          "total": 0,
+          "residual": 1.982168402304163e-10
+        }
+      ]
+    }
+  ],
+  "bounds": {
+    "stageDet": 0.7826612903225807,
+    "compositionDet": 0.0528306865792162,
+    "maxRadius": 1.72
+  },
+  "maxSeam": 1.864588087382261e-15,
+  "maxMapDifference": 0,
+  "minArea": 0.14824492817216353,
+  "trajectories": {
+    "shown": 14,
+    "omitted": 0,
+    "maxFlowMapError": 0,
+    "maxFlowHeightError": 0
+  },
+  "preimages": {
+    "hits": 6,
+    "maxRayResidual": 1.6653345369377348e-16
+  }
+}

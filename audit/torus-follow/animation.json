@@ -1,0 +1,1660 @@
+[
+  {
+    "mobile": false,
+    "frames": 105,
+    "intermediateFrames": 6,
+    "trace": [
+      {
+        "t": 2,
+        "d": 0,
+        "target": 0,
+        "g": 0,
+        "valid": true,
+        "pending": false
+      },
+      {
+        "t": 15.700000000186265,
+        "d": 0,
+        "target": 0,
+        "g": 0,
+        "valid": true,
+        "pending": false
+      },
+      {
+        "t": 32.90000000037253,
+        "d": 0,
+        "target": 0,
+        "g": 0,
+        "valid": true,
+        "pending": false
+      },
+      {
+        "t": 49.10000000009313,
+        "d": 0,
+        "target": 0,
+        "g": 0,
+        "valid": true,
+        "pending": false
+      },
+      {
+        "t": 65.90000000037253,
+        "d": 0,
+        "target": -0.55,
+        "g": 0,
+        "valid": true,
+        "pending": true
+      },
+      {
+        "t": 85.3000000002794,
+        "d": -0.0022275000000767592,
+        "target": -0.55,
+        "g": 0,
+        "valid": true,
+        "pending": true
+      },
+      {
+        "t": 116.10000000009313,
+        "d": -0.00907500000007691,
+        "target": -0.55,
+        "g": -0.0022275000000767592,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 586.3000000002794,
+        "d": -0.015963750000076837,
+        "target": -0.55,
+        "g": -0.00907500000007691,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 891.8000000002794,
+        "d": -0.21532500000007693,
+        "target": -0.55,
+        "g": -0.015963750000076837,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 1287,
+        "d": -0.33907500000007695,
+        "target": -0.55,
+        "g": -0.21532500000007693,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 1523.2000000001863,
+        "d": -0.504075000000077,
+        "target": -0.55,
+        "g": -0.33907500000007695,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 1794,
+        "d": -0.5470485288270182,
+        "target": -0.55,
+        "g": -0.504075000000077,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 2079.2000000001863,
+        "d": -0.5498718003980595,
+        "target": -0.55,
+        "g": -0.5470485288270182,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 2253.100000000093,
+        "d": -0.5499954301938209,
+        "target": -0.55,
+        "g": -0.5498718003980595,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 2425,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.5499954301938209,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 2752.9000000003725,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 8679.400000000373,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 8878.700000000186,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 8901.5,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 8917.600000000093,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 8932.200000000186,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 8949.100000000093,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 8966.100000000093,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 8982.900000000373,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 9000.30000000028,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 9015.900000000373,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 9035.5,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 9049,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 9065.5,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 9083.5,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 9099.80000000028,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 9115.80000000028,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 9132.200000000186,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 9223.200000000186,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 9246.80000000028,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 9248.900000000373,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 9265.5,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 9282.200000000186,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 9299.600000000093,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 9316.400000000373,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 9338.900000000373,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 9348.80000000028,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 9365.5,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 9382.30000000028,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 9399.30000000028,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 9415.5,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 9432.600000000093,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 9448.80000000028,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 9465.5,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 9482.200000000186,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 9498.900000000373,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 9515.5,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 9532.700000000186,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 9550,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 9565.700000000186,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 9582.200000000186,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 9598.80000000028,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 9615.5,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 9632.100000000093,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 9648.80000000028,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 9665.600000000093,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 9682.400000000373,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 9698.900000000373,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 9716.30000000028,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 9732.400000000373,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 9749.400000000373,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 9765.5,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 9782.100000000093,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 9798.900000000373,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 9815.600000000093,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 9832.100000000093,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 9848.80000000028,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 9865.5,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 9887.5,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 9914.100000000093,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 9915.400000000373,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 9939.700000000186,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 10098.200000000186,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 10108.900000000373,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 10110.900000000373,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 10115.700000000186,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 10132.200000000186,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 10225,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 10233.5,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 10286.600000000093,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 10299.100000000093,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 10316.400000000373,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 10332.400000000373,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 10349,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 10365.400000000373,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 10382.100000000093,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 10399.600000000093,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 10446.30000000028,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 10452.5,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 10455.5,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 10616.80000000028,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 10634.600000000093,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 10636.900000000373,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 10650.400000000373,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 10665.600000000093,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 10682.400000000373,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 10699.30000000028,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 10716,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 10732.200000000186,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 10816.900000000373,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": true,
+        "pending": false
+      }
+    ],
+    "tap": true,
+    "drag": true,
+    "resetDuringFollow": true,
+    "noOp": true,
+    "patchSwitch": true,
+    "errors": []
+  },
+  {
+    "mobile": true,
+    "frames": 99,
+    "intermediateFrames": 14,
+    "trace": [
+      {
+        "t": 1.5,
+        "d": 0,
+        "target": 0,
+        "g": 0,
+        "valid": true,
+        "pending": false
+      },
+      {
+        "t": 6.100000000093132,
+        "d": 0,
+        "target": 0,
+        "g": 0,
+        "valid": true,
+        "pending": false
+      },
+      {
+        "t": 30.299999999813735,
+        "d": 0,
+        "target": 0,
+        "g": 0,
+        "valid": true,
+        "pending": false
+      },
+      {
+        "t": 41.10000000009313,
+        "d": 0,
+        "target": 0,
+        "g": 0,
+        "valid": true,
+        "pending": false
+      },
+      {
+        "t": 56.1999999997206,
+        "d": 0,
+        "target": 0,
+        "g": 0,
+        "valid": true,
+        "pending": false
+      },
+      {
+        "t": 75.79999999981374,
+        "d": 0,
+        "target": -0.55,
+        "g": 0,
+        "valid": true,
+        "pending": true
+      },
+      {
+        "t": 89.5,
+        "d": -0.004743750000000001,
+        "target": -0.55,
+        "g": 0,
+        "valid": true,
+        "pending": true
+      },
+      {
+        "t": 147.79999999981374,
+        "d": -0.01163250000000002,
+        "target": -0.55,
+        "g": -0.004743750000000001,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 336.60000000009313,
+        "d": -0.03225750000000002,
+        "target": -0.55,
+        "g": -0.01163250000000002,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 430.29999999981374,
+        "d": -0.10786875000000001,
+        "target": -0.55,
+        "g": -0.03225750000000002,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 676.6000000000931,
+        "d": -0.14911875000000002,
+        "target": -0.55,
+        "g": -0.10786875000000001,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 781.2999999998137,
+        "d": -0.25224375000000004,
+        "target": -0.55,
+        "g": -0.14911875000000002,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 914.8999999999069,
+        "d": -0.29349375000000005,
+        "target": -0.55,
+        "g": -0.25224375000000004,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 989.8999999999069,
+        "d": -0.3484800000000001,
+        "target": -0.55,
+        "g": -0.29349375000000005,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 1063.6999999997206,
+        "d": -0.38284125,
+        "target": -0.55,
+        "g": -0.3484800000000001,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 1130,
+        "d": -0.4103962500000001,
+        "target": -0.55,
+        "g": -0.38284125,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 1215.3999999999069,
+        "d": -0.43786875000000003,
+        "target": -0.55,
+        "g": -0.4103962500000001,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 1322.1000000000931,
+        "d": -0.4722300000000001,
+        "target": -0.55,
+        "g": -0.43786875000000003,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 1408.7999999998137,
+        "d": -0.5134800000000002,
+        "target": -0.55,
+        "g": -0.4722300000000001,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 1528,
+        "d": -0.536309754319271,
+        "target": -0.55,
+        "g": -0.5134800000000002,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 1627.5,
+        "d": -0.5471467796862874,
+        "target": -0.55,
+        "g": -0.536309754319271,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 1704.6000000000931,
+        "d": -0.5491201662389161,
+        "target": -0.55,
+        "g": -0.5471467796862874,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 1790.3999999999069,
+        "d": -0.5495980998920706,
+        "target": -0.55,
+        "g": -0.5491201662389161,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 1881,
+        "d": -0.5498760680057407,
+        "target": -0.55,
+        "g": -0.5495980998920706,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 1962.2999999998137,
+        "d": -0.5499535416361142,
+        "target": -0.55,
+        "g": -0.5498760680057407,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 2047.2999999998137,
+        "d": -0.5499825431349871,
+        "target": -0.55,
+        "g": -0.5499535416361142,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 2132.899999999907,
+        "d": -0.5499934559482245,
+        "target": -0.55,
+        "g": -0.5499825431349871,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 2218,
+        "d": -0.549997546832515,
+        "target": -0.55,
+        "g": -0.5499934559482245,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 2306.100000000093,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.549997546832515,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 2397.5,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 2474.2999999998137,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 2495,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 2564.399999999907,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 2575.2999999998137,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 2589.2999999998137,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 2605.899999999907,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 2622.600000000093,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 2639.1999999997206,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 2655.899999999907,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 2672.600000000093,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 2689.399999999907,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 2705.7999999998137,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 2722.5,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 2739.1999999997206,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 2760.7999999998137,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 2772.600000000093,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 2789.2999999998137,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 2806.2999999998137,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 2822.399999999907,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 2839.2999999998137,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 2855.899999999907,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 2872.399999999907,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 2889.100000000093,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 2906.600000000093,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 2922.399999999907,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 2939.1999999997206,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 2955.6999999997206,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 2972.399999999907,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 2989.1999999997206,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 3006.100000000093,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 3022.399999999907,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 3039.2999999998137,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 3058.7999999998137,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 3072.5,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 3089.100000000093,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 3106.100000000093,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 3122.5,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 3139,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 3155.6999999997206,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 3172.5,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 3189.100000000093,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 3205.899999999907,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 3224.7999999998137,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 3239.100000000093,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 3256.5,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 3272.399999999907,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 3289.100000000093,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 3306.1999999997206,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 3322.399999999907,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 3339.1999999997206,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 3356.5,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 3372.399999999907,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 3389.100000000093,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 3406.100000000093,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 3422.5,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 3440.6999999997206,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 3456.399999999907,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 3473.2999999998137,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 3489.2999999998137,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 3506.1999999997206,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 3522.399999999907,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 3539.100000000093,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 3555.6999999997206,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 3572.899999999907,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 3589.5,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 3605.7999999998137,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 3622.399999999907,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 3639.2999999998137,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": false,
+        "pending": true
+      },
+      {
+        "t": 3657.100000000093,
+        "d": -0.55,
+        "target": -0.55,
+        "g": -0.55,
+        "valid": true,
+        "pending": false
+      }
+    ],
+    "tap": true,
+    "drag": true,
+    "resetDuringFollow": true,
+    "noOp": true,
+    "patchSwitch": true,
+    "errors": []
+  }
+]

@@ -1,0 +1,74 @@
+[
+  {
+    "name": "morse-singularities",
+    "width": 375,
+    "before": {
+      "cue": true,
+      "y": 407.6875,
+      "scroll": 0,
+      "content": "\"\""
+    },
+    "nativeSwipeScrolled": 165,
+    "cueHiddenAtBottom": true
+  },
+  {
+    "name": "apparent-contours",
+    "width": 375,
+    "before": {
+      "cue": true,
+      "y": 430.40625,
+      "scroll": 0,
+      "content": "\"\""
+    },
+    "nativeSwipeScrolled": 165,
+    "cueHiddenAtBottom": true
+  },
+  {
+    "name": "morse-singularities",
+    "width": 390,
+    "before": {
+      "cue": true,
+      "y": 581.15625,
+      "scroll": 0,
+      "content": "\"\""
+    },
+    "nativeSwipeScrolled": 165,
+    "cueHiddenAtBottom": true
+  },
+  {
+    "name": "apparent-contours",
+    "width": 390,
+    "before": {
+      "cue": true,
+      "y": 607.40625,
+      "scroll": 0,
+      "content": "\"\""
+    },
+    "nativeSwipeScrolled": 165,
+    "cueHiddenAtBottom": true
+  },
+  {
+    "name": "morse-singularities",
+    "width": 430,
+    "before": {
+      "cue": true,
+      "y": 659.703125,
+      "scroll": 0,
+      "content": "\"\""
+    },
+    "nativeSwipeScrolled": 165,
+    "cueHiddenAtBottom": true
+  },
+  {
+    "name": "apparent-contours",
+    "width": 430,
+    "before": {
+      "cue": true,
+      "y": 695.40625,
+      "scroll": 0,
+      "content": "\"\""
+    },
+    "nativeSwipeScrolled": 165,
+    "cueHiddenAtBottom": true
+  }
+]

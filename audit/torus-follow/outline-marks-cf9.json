@@ -1,0 +1,82 @@
+[
+  {
+    "mobile": false,
+    "kind": "sphere",
+    "mode": "deform",
+    "grayFills": 0,
+    "grayStrokes": 4,
+    "brownSurface": 3,
+    "brownScreen": 1,
+    "hits": 2
+  },
+  {
+    "mobile": false,
+    "kind": "sphere",
+    "mode": "rotate",
+    "grayFills": 0,
+    "grayStrokes": 4,
+    "brownSurface": 3,
+    "brownScreen": 1,
+    "hits": 2
+  },
+  {
+    "mobile": false,
+    "kind": "torus",
+    "mode": "deform",
+    "grayFills": 0,
+    "grayStrokes": 4,
+    "brownSurface": 3,
+    "brownScreen": 1,
+    "hits": 2
+  },
+  {
+    "mobile": false,
+    "kind": "torus",
+    "mode": "rotate",
+    "grayFills": 0,
+    "grayStrokes": 4,
+    "brownSurface": 3,
+    "brownScreen": 1,
+    "hits": 2
+  },
+  {
+    "mobile": true,
+    "kind": "sphere",
+    "mode": "deform",
+    "grayFills": 0,
+    "grayStrokes": 4,
+    "brownSurface": 3,
+    "brownScreen": 1,
+    "hits": 2
+  },
+  {
+    "mobile": true,
+    "kind": "sphere",
+    "mode": "rotate",
+    "grayFills": 0,
+    "grayStrokes": 4,
+    "brownSurface": 3,
+    "brownScreen": 1,
+    "hits": 2
+  },
+  {
+    "mobile": true,
+    "kind": "torus",
+    "mode": "deform",
+    "grayFills": 0,
+    "grayStrokes": 4,
+    "brownSurface": 3,
+    "brownScreen": 1,
+    "hits": 2
+  },
+  {
+    "mobile": true,
+    "kind": "torus",
+    "mode": "rotate",
+    "grayFills": 0,
+    "grayStrokes": 4,
+    "brownSurface": 3,
+    "brownScreen": 1,
+    "hits": 2
+  }
+]

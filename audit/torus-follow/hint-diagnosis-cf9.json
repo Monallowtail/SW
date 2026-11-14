@@ -1,0 +1,228 @@
+[
+  {
+    "type": "morse",
+    "fresh": {
+      "hidden": false,
+      "rect": {
+        "x": 222.25,
+        "y": 585.203125,
+        "width": 80.015625,
+        "height": 20,
+        "top": 585.203125,
+        "right": 302.265625,
+        "bottom": 605.203125,
+        "left": 222.25
+      },
+      "footerTop": 593.15625,
+      "coveredByFooter": true,
+      "storage": {},
+      "mode": "true"
+    },
+    "scrolled": {
+      "hidden": false,
+      "rect": {
+        "x": 222.25,
+        "y": 323.203125,
+        "width": 80.015625,
+        "height": 20,
+        "top": 323.203125,
+        "right": 302.265625,
+        "bottom": 343.203125,
+        "left": 222.25
+      },
+      "footerTop": 593.15625,
+      "coveredByFooter": false,
+      "storage": {},
+      "mode": "true"
+    },
+    "rotate": {
+      "hidden": true,
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0,
+        "top": 0,
+        "right": 0,
+        "bottom": 0,
+        "left": 0
+      },
+      "footerTop": 593.15625,
+      "coveredByFooter": false,
+      "storage": {},
+      "mode": "false"
+    },
+    "deformAgain": {
+      "hidden": false,
+      "rect": {
+        "x": 222.25,
+        "y": 323.203125,
+        "width": 80.015625,
+        "height": 20,
+        "top": 323.203125,
+        "right": 302.265625,
+        "bottom": 343.203125,
+        "left": 222.25
+      },
+      "footerTop": 593.15625,
+      "coveredByFooter": false,
+      "storage": {},
+      "mode": "true"
+    },
+    "blankDrag": {
+      "hidden": true,
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0,
+        "top": 0,
+        "right": 0,
+        "bottom": 0,
+        "left": 0
+      },
+      "footerTop": 593.15625,
+      "coveredByFooter": false,
+      "storage": {
+        "surface-drag-hint:morse-singularities": "done"
+      },
+      "mode": "true",
+      "beforeDepth": "0",
+      "afterDepth": "0"
+    },
+    "reload": {
+      "hidden": true,
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0,
+        "top": 0,
+        "right": 0,
+        "bottom": 0,
+        "left": 0
+      },
+      "footerTop": 593.15625,
+      "coveredByFooter": false,
+      "storage": {
+        "surface-drag-hint:morse-singularities": "done"
+      },
+      "mode": "true"
+    },
+    "newIndependentTab": false,
+    "openerTab": true
+  },
+  {
+    "type": "contour",
+    "fresh": {
+      "hidden": false,
+      "rect": {
+        "x": 139.34375,
+        "y": 333.34375,
+        "width": 80.015625,
+        "height": 20,
+        "top": 333.34375,
+        "right": 219.359375,
+        "bottom": 353.34375,
+        "left": 139.34375
+      },
+      "footerTop": 619.40625,
+      "coveredByFooter": false,
+      "storage": {},
+      "mode": "true"
+    },
+    "scrolled": {
+      "hidden": false,
+      "rect": {
+        "x": 139.34375,
+        "y": 56.34375,
+        "width": 80.015625,
+        "height": 20,
+        "top": 56.34375,
+        "right": 219.359375,
+        "bottom": 76.34375,
+        "left": 139.34375
+      },
+      "footerTop": 619.375,
+      "coveredByFooter": false,
+      "storage": {},
+      "mode": "true"
+    },
+    "rotate": {
+      "hidden": true,
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0,
+        "top": 0,
+        "right": 0,
+        "bottom": 0,
+        "left": 0
+      },
+      "footerTop": 619.40625,
+      "coveredByFooter": false,
+      "storage": {},
+      "mode": "false"
+    },
+    "deformAgain": {
+      "hidden": false,
+      "rect": {
+        "x": 139.34375,
+        "y": 333.34375,
+        "width": 80.015625,
+        "height": 20,
+        "top": 333.34375,
+        "right": 219.359375,
+        "bottom": 353.34375,
+        "left": 139.34375
+      },
+      "footerTop": 619.40625,
+      "coveredByFooter": false,
+      "storage": {},
+      "mode": "true"
+    },
+    "blankDrag": {
+      "hidden": true,
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0,
+        "top": 0,
+        "right": 0,
+        "bottom": 0,
+        "left": 0
+      },
+      "footerTop": 619.40625,
+      "coveredByFooter": false,
+      "storage": {
+        "surface-drag-hint:apparent-contours": "done"
+      },
+      "mode": "true",
+      "beforeDepth": "0",
+      "afterDepth": "0"
+    },
+    "reload": {
+      "hidden": true,
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0,
+        "top": 0,
+        "right": 0,
+        "bottom": 0,
+        "left": 0
+      },
+      "footerTop": 619.40625,
+      "coveredByFooter": false,
+      "storage": {
+        "surface-drag-hint:apparent-contours": "done"
+      },
+      "mode": "true"
+    },
+    "newIndependentTab": false,
+    "openerTab": true
+  }
+]

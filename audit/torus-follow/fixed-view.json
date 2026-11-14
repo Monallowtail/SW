@@ -1,0 +1,16 @@
+[
+  {
+    "page": "morse",
+    "fixedScale": true,
+    "fixedCenter": true,
+    "otherHandlesFixed": true,
+    "manualZoomPreserved": true
+  },
+  {
+    "page": "contour",
+    "fixedScale": true,
+    "fixedCenter": true,
+    "otherHandlesFixed": true,
+    "manualZoomPreserved": true
+  }
+]
