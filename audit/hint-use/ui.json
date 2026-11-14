@@ -1,0 +1,178 @@
+[
+  {
+    "mobile": false,
+    "page": "morse",
+    "kind": "sphere",
+    "fresh": {
+      "hidden": false,
+      "stored": null,
+      "top": 319.109375,
+      "bottom": 339.109375,
+      "footer": 818.5,
+      "width": 1440,
+      "height": 1000
+    },
+    "rotationPreserved": true,
+    "blankPreserved": true,
+    "reloadBeforeUseVisible": true,
+    "actualGripDismissed": true,
+    "reloadAfterUseHidden": true,
+    "newTabVisible": true,
+    "barDismissed": true,
+    "errors": []
+  },
+  {
+    "mobile": false,
+    "page": "morse",
+    "kind": "torus",
+    "fresh": {
+      "hidden": false,
+      "stored": null,
+      "top": 289.296875,
+      "bottom": 309.296875,
+      "footer": 818.5,
+      "width": 1440,
+      "height": 1000
+    },
+    "rotationPreserved": true,
+    "blankPreserved": true,
+    "reloadBeforeUseVisible": true,
+    "actualGripDismissed": true,
+    "reloadAfterUseHidden": true,
+    "newTabVisible": true,
+    "barDismissed": true,
+    "errors": []
+  },
+  {
+    "mobile": false,
+    "page": "contour",
+    "kind": "sphere",
+    "fresh": {
+      "hidden": false,
+      "stored": null,
+      "top": 479.75,
+      "bottom": 499.75,
+      "footer": 801.859375,
+      "width": 1440,
+      "height": 1000
+    },
+    "rotationPreserved": true,
+    "blankPreserved": true,
+    "reloadBeforeUseVisible": true,
+    "actualGripDismissed": true,
+    "reloadAfterUseHidden": true,
+    "newTabVisible": true,
+    "barDismissed": true,
+    "errors": []
+  },
+  {
+    "mobile": false,
+    "page": "contour",
+    "kind": "torus",
+    "fresh": {
+      "hidden": false,
+      "stored": null,
+      "top": 572.328125,
+      "bottom": 592.328125,
+      "footer": 801.859375,
+      "width": 1440,
+      "height": 1000
+    },
+    "rotationPreserved": true,
+    "blankPreserved": true,
+    "reloadBeforeUseVisible": true,
+    "actualGripDismissed": true,
+    "reloadAfterUseHidden": true,
+    "newTabVisible": true,
+    "barDismissed": true,
+    "errors": []
+  },
+  {
+    "mobile": true,
+    "page": "morse",
+    "kind": "sphere",
+    "fresh": {
+      "hidden": false,
+      "stored": null,
+      "top": 543.15625,
+      "bottom": 563.15625,
+      "footer": 593.15625,
+      "width": 390,
+      "height": 844
+    },
+    "rotationPreserved": true,
+    "blankPreserved": true,
+    "reloadBeforeUseVisible": true,
+    "actualGripDismissed": true,
+    "reloadAfterUseHidden": true,
+    "newTabVisible": true,
+    "barDismissed": true,
+    "errors": []
+  },
+  {
+    "mobile": true,
+    "page": "morse",
+    "kind": "torus",
+    "fresh": {
+      "hidden": false,
+      "stored": null,
+      "top": 568.25,
+      "bottom": 588.25,
+      "footer": 639.15625,
+      "width": 390,
+      "height": 844
+    },
+    "rotationPreserved": true,
+    "blankPreserved": true,
+    "reloadBeforeUseVisible": true,
+    "actualGripDismissed": true,
+    "reloadAfterUseHidden": true,
+    "newTabVisible": true,
+    "barDismissed": true,
+    "errors": []
+  },
+  {
+    "mobile": true,
+    "page": "contour",
+    "kind": "sphere",
+    "fresh": {
+      "hidden": false,
+      "stored": null,
+      "top": 333.34375,
+      "bottom": 353.34375,
+      "footer": 619.40625,
+      "width": 390,
+      "height": 844
+    },
+    "rotationPreserved": true,
+    "blankPreserved": true,
+    "reloadBeforeUseVisible": true,
+    "actualGripDismissed": true,
+    "reloadAfterUseHidden": true,
+    "newTabVisible": true,
+    "barDismissed": true,
+    "errors": []
+  },
+  {
+    "mobile": true,
+    "page": "contour",
+    "kind": "torus",
+    "fresh": {
+      "hidden": false,
+      "stored": null,
+      "top": 380.765625,
+      "bottom": 400.765625,
+      "footer": 619.40625,
+      "width": 390,
+      "height": 844
+    },
+    "rotationPreserved": true,
+    "blankPreserved": true,
+    "reloadBeforeUseVisible": true,
+    "actualGripDismissed": true,
+    "reloadAfterUseHidden": true,
+    "newTabVisible": true,
+    "barDismissed": true,
+    "errors": []
+  }
+]
