@@ -120,6 +120,7 @@ img {
 
 .site-header {
   display: flex;
+  flex-wrap: wrap;
   align-items: flex-end;
   justify-content: space-between;
   gap: 24px 36px;
@@ -129,6 +130,18 @@ img {
 
 .identity {
   min-width: 0;
+}
+
+.name-and-mark {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.site-mark {
+  width: 85px;
+  height: 57px;
+  flex: 0 0 auto;
 }
 
 .site-title {
@@ -216,6 +229,8 @@ img {
 
 .featured-content figure {
   margin-bottom: 16px;
+  padding-block: 10px;
+  border-block: 1px solid var(--rule);
 }
 
 .content-image {
@@ -337,6 +352,15 @@ img {
   overflow-wrap: anywhere;
 }
 
+.publication-list {
+  margin-top: 15px;
+  padding-left: 1.5em;
+}
+
+.publication-list > .publication + .publication {
+  margin-top: 22px;
+}
+
 .publication + .publication {
   margin-top: 23px;
 }
@@ -370,6 +394,7 @@ img {
   padding-top: 2px;
   color: var(--muted);
   font-size: 14px;
+  overflow-wrap: anywhere;
 }
 
 .timeline-item dd {
@@ -391,6 +416,128 @@ img {
 .link-list li p {
   margin-top: 3px;
   font-size: 14px;
+}
+
+.goods-gallery {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 25px 18px;
+  margin-top: 22px;
+}
+
+.goods-gallery figure {
+  min-width: 0;
+}
+
+.goods-gallery img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  object-fit: contain;
+}
+
+.goods-gallery figcaption {
+  margin-top: 7px;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.video-link-list,
+.video-links {
+  margin-top: 14px;
+}
+
+.archive-note {
+  max-width: 48em;
+  margin: 12px 0 26px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.schedule-table {
+  width: 100%;
+  margin-top: 17px;
+  border-collapse: collapse;
+  table-layout: fixed;
+  font-size: 15px;
+}
+
+.schedule-table caption {
+  margin-bottom: 9px;
+  text-align: left;
+}
+
+.schedule-table th,
+.schedule-table td {
+  padding: 10px 12px 10px 0;
+  border-bottom: 1px solid var(--rule);
+  text-align: left;
+  vertical-align: top;
+  overflow-wrap: anywhere;
+}
+
+.schedule-table th {
+  font-weight: 500;
+}
+
+.schedule-table th:first-child,
+.schedule-table td:first-child {
+  width: 14%;
+}
+
+.schedule-table th:last-child,
+.schedule-table td:last-child {
+  width: 26%;
+  padding-right: 0;
+}
+
+.home-records {
+  margin-top: 35px;
+  padding-top: 27px;
+  border-top: 1px solid var(--rule);
+}
+
+.records-overview {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 36px;
+}
+
+.related-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+  margin-top: 13px;
+  padding: 0;
+  list-style: none;
+}
+
+.record-list,
+.talk-list {
+  margin-top: 15px;
+}
+
+.record-list li + li,
+.talk-list li + li {
+  margin-top: 18px;
+}
+
+.talk-record,
+.record-list > li {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.talk-record h3 {
+  margin-top: 0;
+}
+
+.year-section + .year-section {
+  margin-top: 27px;
+}
+
+.year-section > h3 {
+  color: var(--link);
 }
 
 @media (max-width: 1000px) {
@@ -419,6 +566,15 @@ img {
 
   .site-title {
     font-size: 28px;
+  }
+
+  .name-and-mark {
+    gap: 13px;
+  }
+
+  .site-mark {
+    width: 60px;
+    height: 40px;
   }
 
   .affiliation {
@@ -477,6 +633,25 @@ img {
 
   .other-contents ul {
     row-gap: 15px;
+  }
+
+  .goods-gallery {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 22px 16px;
+  }
+
+  .records-overview {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .schedule-table {
+    font-size: 14px;
+  }
+
+  .schedule-table th,
+  .schedule-table td {
+    padding-right: 8px;
   }
 
   .site-footer {
