@@ -7,6 +7,10 @@
   --cyan: #31999d;
   --link: #286965;
   --rule: #d8cdb9;
+  --section-rule: #b5a58c;
+  --section-title-size: 26px;
+  --subsection-title-size: 20px;
+  --record-title-size: 17px;
   --gutter: clamp(20px, 4.2vw, 60px);
 }
 
@@ -48,6 +52,7 @@ summary:focus-visible {
 h1,
 h2,
 h3,
+h4,
 p,
 figure,
 dl,
@@ -58,7 +63,7 @@ dd {
 h1,
 h2,
 h3 {
-  font-weight: 500;
+  font-weight: 700;
   line-height: 1.55;
 }
 
@@ -67,13 +72,21 @@ h1 {
 }
 
 h2 {
-  margin-bottom: 18px;
-  font-size: 24px;
+  margin-bottom: 22px;
+  font-size: var(--section-title-size);
 }
 
 h3 {
-  margin-bottom: 9px;
-  font-size: 19px;
+  margin-bottom: 12px;
+  font-size: var(--subsection-title-size);
+}
+
+.overview-section > h2,
+.contents > h2,
+.home-records > h2,
+.content-section > h2 {
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--section-rule);
 }
 
 p + p {
@@ -130,18 +143,6 @@ img {
 
 .identity {
   min-width: 0;
-}
-
-.name-and-mark {
-  display: flex;
-  align-items: center;
-  gap: 18px;
-}
-
-.site-mark {
-  width: 85px;
-  height: 57px;
-  flex: 0 0 auto;
 }
 
 .site-title {
@@ -212,9 +213,7 @@ img {
 }
 
 .contents {
-  margin-top: 39px;
-  padding-top: 30px;
-  border-top: 1px solid var(--rule);
+  margin-top: 54px;
 }
 
 .featured-contents {
@@ -241,8 +240,8 @@ img {
 }
 
 .featured-content h3 {
-  margin-bottom: 8px;
-  font-size: 21px;
+  margin-bottom: 12px;
+  font-size: var(--subsection-title-size);
 }
 
 .featured-content .description {
@@ -259,8 +258,7 @@ img {
 }
 
 .other-contents h3 {
-  margin-bottom: 8px;
-  font-size: 17px;
+  margin-bottom: 12px;
 }
 
 .other-contents ul {
@@ -279,6 +277,11 @@ img {
 .other-contents li p {
   margin-top: 4px;
   font-size: 14px;
+}
+
+.other-contents li > a {
+  font-size: var(--record-title-size);
+  font-weight: 600;
 }
 
 .site-footer {
@@ -300,7 +303,7 @@ img {
 
 .contact-info h2 {
   margin-bottom: 6px;
-  font-size: 17px;
+  font-size: 20px;
 }
 
 .footer-links {
@@ -321,7 +324,7 @@ img {
 
 .page-title {
   margin-bottom: 20px;
-  font-size: 28px;
+  font-size: 34px;
 }
 
 .section-index {
@@ -333,19 +336,12 @@ img {
 }
 
 .content-section + .content-section {
+  margin-top: 54px;
+}
+
+.content-section > h3 {
   margin-top: 32px;
-  padding-top: 27px;
-  border-top: 1px solid var(--rule);
-}
-
-.content-section h2 {
-  margin-bottom: 14px;
-  font-size: 22px;
-}
-
-.content-section h3 {
-  margin-top: 22px;
-  font-size: 17px;
+  margin-bottom: 12px;
 }
 
 .publication {
@@ -367,13 +363,16 @@ img {
 
 .publication h3 {
   margin-top: 0;
-  margin-bottom: 7px;
-  font-size: 17px;
+  margin-bottom: 6px;
+  font-size: var(--record-title-size);
+  font-weight: 600;
+  line-height: 1.65;
 }
 
 .publication p {
   margin-top: 4px;
   font-size: 14px;
+  color: var(--muted);
 }
 
 .timeline {
@@ -403,6 +402,22 @@ img {
 
 .timeline-item h3 {
   margin-top: 0;
+  margin-bottom: 6px;
+  font-size: var(--record-title-size);
+  font-weight: 600;
+  line-height: 1.65;
+}
+
+.record-title {
+  margin: 0 0 6px;
+  font-size: var(--record-title-size);
+  font-weight: 600;
+  line-height: 1.65;
+}
+
+.record-details {
+  font-size: 14px;
+  color: var(--muted);
 }
 
 .timeline-item dd p + p {
@@ -492,9 +507,7 @@ img {
 }
 
 .home-records {
-  margin-top: 35px;
-  padding-top: 27px;
-  border-top: 1px solid var(--rule);
+  margin-top: 54px;
 }
 
 .records-overview {
@@ -558,6 +571,11 @@ img {
 }
 
 @media (max-width: 650px) {
+  :root {
+    --section-title-size: 24px;
+    --subsection-title-size: 19px;
+  }
+
   .site-header {
     padding-top: 22px;
     padding-bottom: 13px;
@@ -566,15 +584,6 @@ img {
 
   .site-title {
     font-size: 28px;
-  }
-
-  .name-and-mark {
-    gap: 13px;
-  }
-
-  .site-mark {
-    width: 60px;
-    height: 40px;
   }
 
   .affiliation {
@@ -595,8 +604,7 @@ img {
   }
 
   h2 {
-    margin-bottom: 14px;
-    font-size: 22px;
+    margin-bottom: 18px;
   }
 
   .overview,
@@ -606,25 +614,17 @@ img {
   }
 
   .overview {
-    gap: 27px;
+    gap: 36px;
   }
 
-  .overview-section + .overview-section {
-    padding-top: 25px;
-    border-top: 1px solid var(--rule);
-  }
-
-  .contents {
-    margin-top: 30px;
-    padding-top: 25px;
+  .contents,
+  .home-records,
+  .content-section + .content-section {
+    margin-top: 42px;
   }
 
   .featured-contents {
     gap: 29px;
-  }
-
-  .featured-content h3 {
-    font-size: 20px;
   }
 
   .featured-content figure {
@@ -660,7 +660,7 @@ img {
   }
 
   .page-title {
-    font-size: 26px;
+    font-size: 30px;
   }
 
   .section-index {
