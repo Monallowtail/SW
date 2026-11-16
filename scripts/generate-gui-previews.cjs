@@ -28,7 +28,7 @@ function makeEnvironment(type){
   if(nodes.has(id))return nodes.get(id);
   let e=['left','right','surface','screen'].includes(id)?createCanvas(width,height):{};
   Object.assign(e,{id,dataset:{},style:{},options:[{value:'sphere'},{value:'torus'}],value:'',textContent:'',innerHTML:'',checked:false,clientHeight:height,clientWidth:width,
-    setAttribute(k,v){this[k]=v},getAttribute(k){return this[k]},addEventListener(){},querySelectorAll(){return[]},querySelector(){return elem('nested')},getBoundingClientRect(){return{width,height,left:['right','screen'].includes(id)?width:0,top:0}},setPointerCapture(){},focus(){}});
+    setAttribute(k,v){this[k]=v},getAttribute(k){return this[k]},addEventListener(type,fn){(this.listeners??={})[type]=fn},querySelectorAll(){return[]},querySelector(){return elem('nested')},getBoundingClientRect(){return{width,height,left:['right','screen'].includes(id)?width:0,top:0}},setPointerCapture(){},focus(){}});
   nodes.set(id,e);return e;
  }
  const document={body:elem('body'),documentElement:elem('html'),querySelector:q=>elem(q.startsWith('#')?q.slice(1):q),getElementById:elem,querySelectorAll:()=>[],createElement:t=>t==='canvas'?createCanvas(1,1):elem('created'+(++counter)),fonts:{load:async()=>[{}],ready:Promise.resolve()}};
@@ -62,7 +62,20 @@ function makeEnvironment(type){
    const src=scripts.sort((a,b)=>b.length-a.length)[0];
    if(!src)throw Error('No embedded renderer in '+file);
    await vm.runInContext('(async()=>{'+src+'})()',env.context,{timeout:200000});await env.flush();
-   if(type==='contours'){env.sandbox.projectionLab.setState({surface:'torus',yaw:.13,pitch:.21,depths:[0,0,0,0]});await env.flush()}
+   if(type==='contours'){
+    // Tilt the actual map far enough for its four genuine contour cusps.
+    // Keep this direction fixed while the upper control pulls and pushes.
+    env.sandbox.projectionLab.setState({surface:'torus',yaw:.45,pitch:1.25,depths:[0,0,0,0]});await env.flush();
+    // Enlarge the target screen with the page's own wheel handler.
+    env.nodes.get('screen').listeners.wheel({deltaY:-Math.log(1.45)/.0024,deltaMode:0,clientX:720,clientY:215,preventDefault(){}});await env.flush();
+   } else {
+    // The source view may tilt freely. The height view only turns around
+    // its vertical axis, preserving the original height-function policy.
+    const key=(canvas,name,n)=>{for(let i=0;i<n;i++)env.nodes.get(canvas).onkeydown({key:name,preventDefault(){}})};
+    env.nodes.get('rotate').onclick();
+    key('left','ArrowRight',6);key('left','ArrowDown',4);key('right','ArrowRight',8);
+    env.nodes.get('deform').onclick();await env.flush();
+   }
    // Select the same upper handle that the animation changes.
    env.nodes.get('patch1')?.onclick?.();await env.flush();
    env.capture(path.join(output,type+'-initial.png'));
@@ -72,17 +85,22 @@ function makeEnvironment(type){
    // Twenty-one unique solver states cover both directions. Reuse the
    // matching return frames for a smooth 40-frame, four-second loop.
    const states=path.join(outdir,'states');fs.mkdirSync(states,{recursive:true});
+   const diagnostics=[];
    for(let i=0;i<21;i++){
     const d=i<=10?.50*Math.sin(i/10*Math.PI/2):-.50*Math.sin((i-10)/10*Math.PI/2);
     if(type==='morse')env.sandbox.morseSurfaceLab.setDepths([0,d,0,0]);
-    else env.sandbox.projectionLab.setState({depths:[0,d,0,0],yaw:.13,pitch:.21});
+    else env.sandbox.projectionLab.setState({depths:[0,d,0,0],yaw:.45,pitch:1.25});
     await env.flush();
     if(type==='morse'&&env.sandbox.morseSurfaceLab.error)throw Error(env.sandbox.morseSurfaceLab.error);
     env.capture(path.join(states,String(i).padStart(4,'0')+'.png'));
     if(i===10)env.capture(path.join(output,type+'-pull-peak.png'));
     if(i===20)env.capture(path.join(output,type+'-push-peak.png'));
-    console.log(type+': '+(i+1)+'/21, upper patch '+d.toFixed(3));
+    const g=type==='contours'?env.sandbox.projectionLab.geometry:null;
+    if(g&&(!g.valid||g.cuspCount!==4))throw Error('Contour preview must retain four verified cusps');
+    if(g)diagnostics.push({frameState:i,topDepth:d,state:g.state,valid:g.valid,cuspCount:g.cuspCount,verification:env.sandbox.projectionLab.verification,components:g.components.map(c=>({degree:c.degree,cusps:c.cusps.map(q=>q.q)}))});
+    console.log(type+': '+(i+1)+'/21, upper patch '+d.toFixed(3)+(g?', cusps '+g.cuspCount+', valid '+g.valid:''));
    }
+   if(diagnostics.length)fs.writeFileSync(path.join(output,type+'-diagnostics.json'),JSON.stringify(diagnostics,null,2)+'\n');
    const sequence=[...Array.from({length:11},(_,i)=>i),...Array.from({length:10},(_,i)=>9-i),...Array.from({length:10},(_,i)=>11+i),...Array.from({length:9},(_,i)=>19-i)];
    sequence.forEach((state,i)=>fs.copyFileSync(path.join(states,String(state).padStart(4,'0')+'.png'),path.join(outdir,String(i).padStart(4,'0')+'.png')));
    const filter='[0:v]trim=end_frame=40,setpts=N/(10*TB),scale=720:322:flags=lanczos,split[x][y];[x]palettegen=max_colors=192:stats_mode=diff[p];[y][p]paletteuse=dither=sierra2_4a:diff_mode=rectangle';
