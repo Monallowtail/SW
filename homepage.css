@@ -89,6 +89,11 @@ h3 {
   border-bottom: 2px solid var(--section-rule);
 }
 
+.featured-content > h2 {
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--section-rule);
+}
+
 p + p {
   margin-top: 12px;
 }
@@ -257,6 +262,50 @@ img {
   height: auto;
   aspect-ratio: 36 / 25;
   object-fit: contain;
+}
+
+.math-previews {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 42px;
+}
+
+.math-previews figure {
+  min-width: 0;
+}
+
+.math-previews a {
+  display: block;
+}
+
+.math-previews figcaption {
+  margin-top: 12px;
+  font-size: var(--subsection-title-size);
+  font-weight: 600;
+}
+
+.gui-preview {
+  width: 100%;
+  height: auto;
+}
+
+.math-page-note {
+  margin-bottom: 18px;
+  font-size: 14px;
+}
+
+.animation-toggle {
+  min-height: 44px;
+  margin: 8px 0 16px;
+  padding: 7px 0;
+  border: 0;
+  background: transparent;
+  color: var(--link);
+  font: inherit;
+  font-size: 14px;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  cursor: pointer;
 }
 
 .featured-content h3 {
@@ -598,6 +647,7 @@ img {
   }
 
   .featured-contents,
+  .math-previews,
   .other-contents ul {
     column-gap: 28px;
   }
@@ -651,6 +701,7 @@ img {
 
   .overview,
   .featured-contents,
+  .math-previews,
   .other-contents ul {
     grid-template-columns: 1fr;
   }
@@ -665,7 +716,8 @@ img {
     margin-top: 42px;
   }
 
-  .featured-contents {
+  .featured-contents,
+  .math-previews {
     gap: 29px;
   }
 
