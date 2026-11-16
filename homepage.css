@@ -391,6 +391,10 @@ img {
   font-size: 34px;
 }
 
+.page-intro {
+  margin-bottom: 20px;
+}
+
 .section-index {
   display: flex;
   flex-wrap: wrap;
