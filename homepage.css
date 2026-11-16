@@ -10,7 +10,9 @@
   --section-rule: #b5a58c;
   --section-title-size: 26px;
   --subsection-title-size: 20px;
-  --record-title-size: 17px;
+  --body-text-size: calc(16px - 1pt);
+  --detail-text-size: calc(14px - 1pt);
+  --record-title-size: calc(17px - 1pt);
   --gutter: clamp(20px, 4.2vw, 60px);
 }
 
@@ -26,7 +28,7 @@ body.site-page {
   margin: 0;
   background: var(--paper);
   color: var(--ink);
-  font: 16px/1.9 "Noto Sans JP", "Hiragino Sans", "Yu Gothic UI", "Yu Gothic", system-ui, sans-serif;
+  font: var(--body-text-size)/1.9 "Noto Sans JP", "Hiragino Sans", "Yu Gothic UI", "Yu Gothic", system-ui, sans-serif;
   -webkit-text-size-adjust: 100%;
 }
 
@@ -121,6 +123,7 @@ img {
   z-index: 10;
   padding: 8px 0;
   background: var(--paper);
+  font-size: 16px;
   transform: translateY(-140%);
 }
 
@@ -299,7 +302,7 @@ img {
 
 .math-page-note {
   margin-bottom: 18px;
-  font-size: 14px;
+  font-size: var(--detail-text-size);
 }
 
 .featured-content h3 {
@@ -308,12 +311,12 @@ img {
 }
 
 .featured-content .description {
-  font-size: 15px;
+  font-size: calc(15px - 1pt);
   line-height: 1.9;
 }
 
 .featured-content .text-link {
-  font-size: 14px;
+  font-size: var(--detail-text-size);
 }
 
 .other-contents {
@@ -334,12 +337,12 @@ img {
 .other-contents li {
   min-width: 0;
   margin: 0;
-  font-size: 15px;
+  font-size: calc(15px - 1pt);
 }
 
 .other-contents li p {
   margin-top: 4px;
-  font-size: 14px;
+  font-size: var(--detail-text-size);
 }
 
 .other-contents li > a {
@@ -367,6 +370,10 @@ img {
 .contact-info h2 {
   margin-bottom: 6px;
   font-size: 20px;
+}
+
+.contact-info p {
+  font-size: var(--detail-text-size);
 }
 
 .footer-links {
@@ -428,7 +435,7 @@ img {
 
 .publication p {
   margin-top: 4px;
-  font-size: 14px;
+  font-size: var(--detail-text-size);
   color: var(--muted);
 }
 
@@ -449,7 +456,7 @@ img {
 .timeline-item dt {
   padding-top: 2px;
   color: var(--muted);
-  font-size: 14px;
+  font-size: var(--detail-text-size);
   overflow-wrap: anywhere;
 }
 
@@ -473,7 +480,7 @@ img {
 }
 
 .record-details {
-  font-size: 14px;
+  font-size: var(--detail-text-size);
   color: var(--muted);
 }
 
@@ -487,7 +494,7 @@ img {
 
 .link-list li p {
   margin-top: 3px;
-  font-size: 14px;
+  font-size: var(--detail-text-size);
 }
 
 .goods-gallery {
@@ -510,7 +517,7 @@ img {
 
 .goods-gallery figcaption {
   margin-top: 7px;
-  font-size: 13px;
+  font-size: calc(13px - 1pt);
   line-height: 1.7;
 }
 
@@ -523,7 +530,7 @@ img {
   max-width: 48em;
   margin: 12px 0 26px;
   color: var(--muted);
-  font-size: 14px;
+  font-size: var(--detail-text-size);
 }
 
 .schedule-table {
@@ -531,7 +538,7 @@ img {
   margin-top: 17px;
   border-collapse: collapse;
   table-layout: fixed;
-  font-size: 15px;
+  font-size: calc(15px - 1pt);
 }
 
 .schedule-table caption {
@@ -729,7 +736,7 @@ img {
   }
 
   .schedule-table {
-    font-size: 14px;
+    font-size: var(--detail-text-size);
   }
 
   .schedule-table th,
