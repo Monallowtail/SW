@@ -6,14 +6,14 @@
   <meta name="description" content="田邊真郷のホームページ。可微分写像の特異点とトポロジーの研究、活動記録、さわってあそべる数学ページ。">
   <meta name="theme-color" content="#fdf6e3">
   <title>田邊真郷</title>
-  <link rel="stylesheet" href="homepage.css?v=20261116-math-page">
-  <script src="homepage-media.js?v=20261116-math-page" defer></script>
+  <link rel="stylesheet" href="homepage.css?v=20261116-home-refine">
+  <script src="homepage-media.js?v=20261116-home-refine" defer></script>
 </head>
 <body class="site-page">
   <a class="skip-link" href="#main">本文へ</a>
   <header class="site-header">
     <div class="identity">
-      <h1 class="site-title">田邊 真郷</h1>
+      <h1 class="site-title">田邊 真郷 <span class="name-reading">（たなべ まさと・Masato Tanabe）</span></h1>
       <p class="affiliation"><a href="https://ithems.riken.jp/ja/members/masato-tanabe">理化学研究所 iTHEMS</a>　基礎科学特別研究員</p>
     </div>
     <nav class="site-nav" aria-label="ページの切り替え">
@@ -26,26 +26,17 @@
 
   <main class="site-main" id="main">
     <figure class="home-illustration">
-      <img src="assets/homepage/singularity-line-art.png" width="1254" height="1254" alt="曲面上の特異点と、その近くを通る光線を描いた線画。" decoding="async">
+      <img src="assets/homepage/singularity-line-art.svg?v=20261116-cusp-rays" width="1254" height="1254" alt="曲面の特異点を描いた線画。黄色い線は赤い点の手前で途切れ、延長するとそのカスプを通ります。" decoding="async">
       <figcaption>特異点はいつもあなたのそばに</figcaption>
     </figure>
-    <nav class="section-index home-section-index" aria-label="ホーム内の目次">
-      <a href="#research-heading">研究</a>
-      <a href="#activities-heading">活動</a>
-      <a href="#contents">さわってあそべる数学ページ</a>
-      <a href="#records">お知らせ・予定</a>
-      <a href="#contact">連絡先</a>
-    </nav>
     <div class="overview">
       <section class="overview-section" aria-labelledby="research-heading">
-        <h2 id="research-heading">研究</h2>
+        <h2 id="research-heading"><a href="research.html">研究</a></h2>
         <p>可微分写像のトポロジーに興味があります。最近は、拡張写像の特異点を用いて元の写像のトポロジーを調べる「特異Seifert膜・特異スライスの手法」や、その理論的背景を調べています。</p>
-        <p class="text-link"><a href="research.html">研究テーマ・論文・講演・経歴</a></p>
       </section>
       <section class="overview-section" aria-labelledby="activities-heading">
-        <h2 id="activities-heading">活動</h2>
+        <h2 id="activities-heading"><a href="activities.html">活動</a></h2>
         <p>数学の講演、科学技術コミュニケーション、動画やグッズの制作などをしています。日曜数学会での講演、学術バーQでのイベント、CoSTEPでの活動をまとめています。</p>
-        <p class="text-link"><a href="activities.html">活動記録・動画・グッズ</a></p>
       </section>
     </div>
 
@@ -54,18 +45,17 @@
       <div class="math-previews">
         <a href="math.html#morse">
           <figure>
-            <img class="gui-preview" id="morse-preview" src="assets/homepage/morse-gui.png" data-animation-src="assets/homepage/morse-gui.gif" width="720" height="322" alt="曲面を動かすと、山・谷・峠に対応する点と高さが変化する様子。" loading="lazy" decoding="async">
+            <img class="gui-preview" id="morse-preview" src="assets/homepage/morse-gui.png?v=20261116-home-refine" data-animation-src="assets/homepage/morse-gui.gif?v=20261116-home-refine" width="720" height="322" alt="トーラスの上側を引っ張ったり押し込んだりすると、臨界点とその高さが変化する様子。" loading="lazy" decoding="async">
             <figcaption>モース特異点とあそぼう</figcaption>
           </figure>
         </a>
         <a href="math.html#contours">
           <figure>
-            <img class="gui-preview" id="contours-preview" src="assets/homepage/contours-gui.png" data-animation-src="assets/homepage/contours-gui.gif" width="720" height="322" alt="曲面を動かすと、スクリーンに映る輪郭線が変化する様子。" loading="lazy" decoding="async">
+            <img class="gui-preview" id="contours-preview" src="assets/homepage/contours-gui.png?v=20261116-home-refine" data-animation-src="assets/homepage/contours-gui.gif?v=20261116-home-refine" width="720" height="322" alt="トーラスの上側を引っ張ったり押し込んだりすると、スクリーン上の輪郭線が変化する様子。" loading="lazy" decoding="async">
             <figcaption>輪郭線とあそぼう</figcaption>
           </figure>
         </a>
       </div>
-      <button class="animation-toggle" type="button" data-animation-toggle aria-controls="morse-preview contours-preview" hidden>動きを止める</button>
     </section>
     <section class="home-records" id="records" aria-labelledby="records-heading">
       <h2 id="records-heading">お知らせ・予定</h2>
@@ -83,7 +73,7 @@
     </section>
     <section class="record-subsection" id="regular">
       <h3>定期的な予定</h3>
-      <table class="schedule-table"><caption>時刻は日本標準時です。</caption><thead><tr><th scope="col">曜日</th><th scope="col">予定</th><th scope="col">時刻</th></tr></thead><tbody><tr><th scope="row">月</th><td>3年セミナー @津田塾大学</td><td>10:30～12:00</td></tr><tr><th scope="row">火</th><td>トポロジー火曜セミナー @東大駒場</td><td>16:00～17:30</td></tr><tr><th scope="row">水</th><td>—</td><td>—</td></tr><tr><th scope="row">木</th><td>—</td><td>—</td></tr><tr><th scope="row">金</th><td>Coffee Meeting @iTHEMS</td><td>12:30～13:30</td></tr></tbody></table>
+      <table class="schedule-table"><thead><tr><th scope="col">曜日</th><th scope="col">予定</th><th scope="col">時刻</th></tr></thead><tbody><tr><th scope="row">月</th><td>3年セミナー @津田塾大学</td><td>10:30～12:00</td></tr><tr><th scope="row">火</th><td>トポロジー火曜セミナー @東大駒場</td><td>16:00～17:30</td></tr><tr><th scope="row">水</th><td>—</td><td>—</td></tr><tr><th scope="row">木</th><td>—</td><td>—</td></tr><tr><th scope="row">金</th><td>Coffee Meeting @iTHEMS</td><td>12:30～13:30</td></tr></tbody></table>
     </section>
     <section class="record-subsection" id="conferences">
       <h3>集会参加予定</h3>

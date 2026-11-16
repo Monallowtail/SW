@@ -63,23 +63,32 @@ function makeEnvironment(type){
    if(!src)throw Error('No embedded renderer in '+file);
    await vm.runInContext('(async()=>{'+src+'})()',env.context,{timeout:200000});await env.flush();
    if(type==='contours'){env.sandbox.projectionLab.setState({surface:'torus',yaw:.13,pitch:.21,depths:[0,0,0,0]});await env.flush()}
+   // Select the same upper handle that the animation changes.
+   env.nodes.get('patch1')?.onclick?.();await env.flush();
    env.capture(path.join(output,type+'-initial.png'));
    const outdir=path.join(output,type);fs.mkdirSync(outdir,{recursive:true});
-   // Twenty-five samples from 0 to 0.5. The GIF reverses these samples to
-   // return to the original state. Each state uses the page's public API.
-   for(let i=0;i<25;i++){
-    const d=.50*(1-Math.cos(i/24*Math.PI))/2;
-    if(type==='morse')env.sandbox.morseSurfaceLab.setDepths([d,0,0,0]);
-    else env.sandbox.projectionLab.setState({depths:[d,0,0,0],yaw:.13,pitch:.21});
+   // The torus controls are [right, top, left, bottom]. Positive top depth
+   // pulls the upper patch outward; negative depth pushes it inward.
+   // Twenty-one unique solver states cover both directions. Reuse the
+   // matching return frames for a smooth 40-frame, four-second loop.
+   const states=path.join(outdir,'states');fs.mkdirSync(states,{recursive:true});
+   for(let i=0;i<21;i++){
+    const d=i<=10?.50*Math.sin(i/10*Math.PI/2):-.50*Math.sin((i-10)/10*Math.PI/2);
+    if(type==='morse')env.sandbox.morseSurfaceLab.setDepths([0,d,0,0]);
+    else env.sandbox.projectionLab.setState({depths:[0,d,0,0],yaw:.13,pitch:.21});
     await env.flush();
     if(type==='morse'&&env.sandbox.morseSurfaceLab.error)throw Error(env.sandbox.morseSurfaceLab.error);
-    env.capture(path.join(outdir,String(i).padStart(4,'0')+'.png'));
-    console.log(type+': '+(i+1)+'/25');
+    env.capture(path.join(states,String(i).padStart(4,'0')+'.png'));
+    if(i===10)env.capture(path.join(output,type+'-pull-peak.png'));
+    if(i===20)env.capture(path.join(output,type+'-push-peak.png'));
+    console.log(type+': '+(i+1)+'/21, upper patch '+d.toFixed(3));
    }
-   const filter='[0:v]trim=end_frame=25,setpts=PTS-STARTPTS,split[a][b];[b]reverse[r];[a][r]concat=n=2:v=1:a=0,setpts=N/(10*TB),scale=720:322:flags=lanczos,split[x][y];[x]palettegen=max_colors=192:stats_mode=diff[p];[y][p]paletteuse=dither=sierra2_4a:diff_mode=rectangle';
+   const sequence=[...Array.from({length:11},(_,i)=>i),...Array.from({length:10},(_,i)=>9-i),...Array.from({length:10},(_,i)=>11+i),...Array.from({length:9},(_,i)=>19-i)];
+   sequence.forEach((state,i)=>fs.copyFileSync(path.join(states,String(state).padStart(4,'0')+'.png'),path.join(outdir,String(i).padStart(4,'0')+'.png')));
+   const filter='[0:v]trim=end_frame=40,setpts=N/(10*TB),scale=720:322:flags=lanczos,split[x][y];[x]palettegen=max_colors=192:stats_mode=diff[p];[y][p]paletteuse=dither=sierra2_4a:diff_mode=rectangle';
    encode(['-framerate','10','-i',path.join(outdir,'%04d.png'),'-filter_complex',filter,'-final_delay','10','-loop','0','-y',path.join(destination,type+'-gui.gif')]);
    encode(['-i',path.join(output,type+'-initial.png'),'-vf','scale=720:322:flags=lanczos','-frames:v','1','-y',path.join(destination,type+'-gui.png')]);
-   console.log('Saved '+type+' GUI: 720x322, 50 frames, 5 seconds.');
+   console.log('Saved '+type+' GUI: 720x322, 40 frames, 4 seconds; upper patch pulls and pushes.');
   }
  } finally {if(!keepFrames)fs.rmSync(output,{recursive:true,force:true})}
 })().catch(error=>{console.error(error);process.exitCode=1});

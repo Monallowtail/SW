@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1254 1254" width="1254" height="1254" role="img" aria-labelledby="title description">
+  <title id="title">曲面のカスプと黄色い直線</title>
+  <desc id="description">黄色い線分は赤いカスプの点の手前で途切れ、延長したときにその点を通る。</desc>
+  <g fill="none" stroke="#604739" stroke-width="9.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M 737 278
+      C 824 270 915 281 968 323
+      C 1010 359 1038 427 1047 487
+      C 1060 548 1035 608 1004 657
+      C 971 712 920 757 858 798
+      C 794 842 721 877 651 914
+      C 579 952 513 979 447 997
+      C 381 1016 313 1014 254 992
+      C 202 974 180 934 176 880
+      C 169 824 176 762 196 709
+      C 219 648 253 585 299 532
+      C 348 476 405 425 468 383
+      C 532 341 599 305 662 288
+      C 688 282 714 279 737 278 Z"/>
+    <path d="M 736 437
+      C 732 489 715 534 683 561
+      C 632 601 574 649 520 668
+      C 474 685 422 684 376 681
+      C 415 699 447 739 450 786
+      C 465 722 521 685 584 645
+      C 649 602 716 553 813 546
+      C 764 548 741 506 736 437 Z"/>
+  </g>
+  <!-- Every line is a segment of the local x-axis. Rotations preserve the
+       origin, so all supporting lines pass through (736,437) exactly.
+       Positive near radii leave a visible gap: 80 above and 130 below.
+       Far radii and angles follow the original drawing's endpoints. -->
+  <g transform="translate(736 437)" fill="none" stroke="#f2c93d" stroke-width="9.5" stroke-linecap="round">
+    <g aria-label="上側の黄色い線分">
+      <line x1="80" y1="0" x2="228.17756244" y2="0" transform="rotate(-114.88036686)"/>
+      <line x1="80" y1="0" x2="224.87774456" y2="0" transform="rotate(-97.40943873)"/>
+      <line x1="80" y1="0" x2="288.46143590" y2="0" transform="rotate(-84.23011494)"/>
+      <line x1="80" y1="0" x2="248.69660231" y2="0" transform="rotate(-67.04341768)"/>
+      <line x1="80" y1="0" x2="254.42091109" y2="0" transform="rotate(-50.74228328)"/>
+    </g>
+    <g aria-label="下側の黄色い線分">
+      <line x1="130" y1="0" x2="304.71133881" y2="0" transform="rotate(118.41537264)"/>
+      <line x1="130" y1="0" x2="333.05404967" y2="0" transform="rotate(107.29244940)"/>
+      <line x1="130" y1="0" x2="352.68682992" y2="0" transform="rotate(93.57633437)"/>
+      <line x1="130" y1="0" x2="321.88507266" y2="0" transform="rotate(82.32301827)"/>
+      <line x1="130" y1="0" x2="308.52066381" y2="0" transform="rotate(69.50916239)"/>
+    </g>
+  </g>
+  <circle cx="736" cy="437" r="14.5" fill="#e96922"/>
+</svg>
