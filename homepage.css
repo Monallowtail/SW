@@ -195,7 +195,7 @@ img {
 
 .home-illustration {
   width: min(100%, 300px);
-  margin: 0 auto 36px;
+  margin: 0 auto 20px;
   text-align: center;
 }
 
@@ -353,6 +353,10 @@ img {
   gap: 7px 22px;
   margin: 0 0 28px;
   font-size: 14px;
+}
+
+.home-section-index {
+  margin-bottom: 36px;
 }
 
 .content-section + .content-section {
@@ -634,7 +638,7 @@ img {
 
   .home-illustration {
     width: min(100%, 280px);
-    margin-bottom: 30px;
+    margin-bottom: 20px;
   }
 
   .home-illustration figcaption {
