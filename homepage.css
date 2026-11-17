@@ -159,7 +159,7 @@ img {
 
 .name-reading {
   display: inline;
-  margin-inline-start: 8px;
+  margin-inline-start: 0;
   font-size: 14px;
   font-weight: 400;
   letter-spacing: 0;
@@ -668,7 +668,7 @@ img {
   .site-title {
     display: flex;
     align-items: baseline;
-    gap: 4px;
+    gap: 0;
     font-size: clamp(21px, 6.5vw, 28px);
     white-space: nowrap;
   }
