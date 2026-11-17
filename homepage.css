@@ -5,7 +5,7 @@
   --muted: #716153;
   --orange: #cb4b16;
   --cyan: #31999d;
-  --link: #286965;
+  --link: #397672;
   --rule: #d8cdb9;
   --section-rule: #b5a58c;
   --section-title-size: 18px;
@@ -34,14 +34,11 @@ body.site-page {
 
 a {
   color: var(--link);
-  text-decoration: underline;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 4px;
+  text-decoration: none;
 }
 
 a:hover {
   color: var(--orange);
-  text-decoration-thickness: 2px;
 }
 
 a:focus-visible,
@@ -174,8 +171,7 @@ img {
 }
 
 .site-title a:hover {
-  text-decoration: underline;
-  text-decoration-thickness: 1px;
+  color: var(--orange);
 }
 
 .affiliation {
