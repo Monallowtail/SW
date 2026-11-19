@@ -274,12 +274,19 @@ body:has(.help-dialog[open]){overflow:hidden}
 /* Keep the existing full-size diagrams; the existing controls stay in reach. */
 .first-drag-hint{position:absolute;z-index:2;pointer-events:none;white-space:nowrap;font:12px/1.5 "Noto Sans JP",sans-serif;color:var(--ink);background:rgba(253,246,227,.9);padding:1px 4px}
 @media(max-width:650px){footer{position:sticky;bottom:0;z-index:4;background:var(--paper);padding-bottom:max(8px,env(safe-area-inset-bottom));margin-top:0}}
-@media(max-width:650px) and (min-height:600px){footer[data-more-below]::before{content:"";position:absolute;left:0;right:0;top:-24px;height:24px;touch-action:pan-y}footer[data-more-below]::after{content:"";position:absolute;left:calc(50% - 5px);top:-19px;width:10px;height:10px;border-right:1.5px solid var(--ink);border-bottom:1.5px solid var(--ink);transform:rotate(45deg);pointer-events:none}}
+#scroll-down{display:none}
+@media(max-width:650px){
+ footer[data-more-below] #scroll-down{display:grid;place-items:center;position:absolute;left:50%;top:-40px;z-index:1;transform:translateX(-50%);width:44px;height:44px;min-height:44px;padding:0;border:0;border-radius:50%;background:#e8e6e1;touch-action:pan-y}
+ #scroll-down:hover,#scroll-down:active{background:#dcd9d3}
+ #scroll-down svg{pointer-events:none}
+}
+@media(max-width:650px) and (min-height:600px){footer[data-more-below]::before{content:"";position:absolute;left:0;right:0;top:-24px;height:24px;touch-action:pan-y}}
+@media(max-width:650px) and (max-height:599px){footer[data-more-below] #scroll-down{position:fixed;top:auto;bottom:max(12px,env(safe-area-inset-bottom));z-index:4}}
 @media(max-width:650px) and (max-height:599px){footer{position:static}}
 </style></head><body>
 <header><div class="heading-row"><h1>輪郭線とあそぼう</h1><nav class="help-actions" aria-label="ページの説明"><button type="button" data-help-open="play-dialog">あそび方</button><button type="button" data-help-open="explanation-dialog">解説</button></nav></div><div class="surface-meta"><select id="surface-select" aria-label="曲面を選ぶ"><option value="sphere">球面</option><option value="torus">トーラス</option><option value="genus2">2人乗りの浮き輪</option><option value="genus3">3人乗りの浮き輪</option><option value="klein">クラインの壺：壺型</option><option value="klein8">クラインの壺：8の字型</option><option value="rp2">射影平面：ボーイ曲面</option><option value="roman">射影平面：ローマン曲面</option></select><span id="euler" class="euler math">χ(S<sup>2</sup>) = 2</span></div><button id="reset">リセット</button></header>
-<main><section class="view"><div class="caption"><span class="view-label" id="surface-label">球面とスクリーン</span><nav aria-label="曲面の操作"><button id="deform" aria-pressed="true">変形</button><button id="rotate" aria-pressed="false">回転</button></nav></div><canvas id="surface" tabindex="0" aria-label="球面。変形モードでマーカーをドラッグして変形。回転モードで射影方向を変更。"></canvas></section><section class="view"><div class="caption"><span class="view-label">スクリーン</span></div><canvas id="screen" tabindex="0" aria-label="球面の平面への射影。ドラッグまたは矢印キーで選択点を移動。"></canvas><span class="canvas-hint" id="preimages">逆像 2個</span></section></main>
-<footer><div id="cusp-equation" class="invariant" aria-live="polite"></div><div id="equation" class="invariant" aria-live="polite"></div><div id="regions" class="regions" role="group" aria-label="変形する領域"><button id="patch0" aria-pressed="true">右上</button><button id="patch1" aria-pressed="false">右下</button><button id="patch2" aria-pressed="false">左上</button><button id="patch3" aria-pressed="false">左下</button><button id="patch4" hidden aria-pressed="false">斜め上（右）</button><button id="patch5" hidden aria-pressed="false">斜め上（上）</button><button id="patch6" hidden aria-pressed="false">斜め上（左）</button><button id="patch7" hidden aria-pressed="false">斜め上（下）</button></div><div id="deformation-tools" class="tools"><label class="amplitude"><input id="amplitude" type="range" min="-.55" max=".55" step=".001" value="0" aria-label="局所変形の強さ"></label></div><span id="surface-note"></span><span id="status" role="status"></span>
+<main><section class="view"><div class="caption"><span class="view-label" id="surface-label">球面とスクリーン</span><nav aria-label="曲面の操作"><button id="deform" aria-pressed="true">変形</button><button id="rotate" aria-pressed="false">回転</button></nav></div><canvas id="surface" tabindex="0" aria-label="球面。変形モードでマーカーをドラッグして変形。回転モードで射影方向を変更。"></canvas></section><section class="view" id="lower-view"><div class="caption"><span class="view-label">スクリーン</span></div><canvas id="screen" tabindex="0" aria-label="球面の平面への射影。ドラッグまたは矢印キーで選択点を移動。"></canvas><span class="canvas-hint" id="preimages">逆像 2個</span></section></main>
+<footer><button type="button" id="scroll-down" aria-label="下のスクリーンへスクロール" aria-controls="lower-view"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button><div id="cusp-equation" class="invariant" aria-live="polite"></div><div id="equation" class="invariant" aria-live="polite"></div><div id="regions" class="regions" role="group" aria-label="変形する領域"><button id="patch0" aria-pressed="true">右上</button><button id="patch1" aria-pressed="false">右下</button><button id="patch2" aria-pressed="false">左上</button><button id="patch3" aria-pressed="false">左下</button><button id="patch4" hidden aria-pressed="false">斜め上（右）</button><button id="patch5" hidden aria-pressed="false">斜め上（上）</button><button id="patch6" hidden aria-pressed="false">斜め上（左）</button><button id="patch7" hidden aria-pressed="false">斜め上（下）</button></div><div id="deformation-tools" class="tools"><label class="amplitude"><input id="amplitude" type="range" min="-.55" max=".55" step=".001" value="0" aria-label="局所変形の強さ"></label></div><span id="surface-note"></span><span id="status" role="status"></span>
 </footer><style>
 .answer-input-wrap{position:relative;display:inline-flex;vertical-align:middle}.answer-feedback{position:absolute;top:calc(100% + 3px);left:50%;transform:translateX(-50%);white-space:nowrap;font:12px "Noto Sans JP",sans-serif;color:#28733c;line-height:1.4}#cusp-equation,#equation{padding-bottom:22px}
 .count-answer{box-sizing:border-box;width:3.3em;min-height:36px;padding:2px 6px;border:2px solid #aaa;border-radius:5px;background:#fff;color:inherit;font:inherit;text-align:center;vertical-align:middle;outline-offset:3px}
@@ -931,8 +938,16 @@ window.projectionLab={get multiplePointLoci(){return multiplePointCurves(geometr
 (()=>{document.querySelectorAll('[data-help-open]').forEach(button=>{button.addEventListener('click',()=>{const dialog=document.getElementById(button.dataset.helpOpen);dialog.showModal();dialog.scrollTop=0;});});document.querySelectorAll('.help-dialog').forEach(dialog=>{dialog.querySelector('[data-help-close]').addEventListener('click',()=>dialog.close());dialog.addEventListener('click',event=>{if(event.target===dialog){const r=dialog.getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)dialog.close();}});});})();
 </script><script>
 (()=>{
- const footer=document.querySelector('footer');let cueFrame=0;
- function updateScrollCue(){cueFrame=0;footer.toggleAttribute('data-more-below',scrollY<document.documentElement.scrollHeight-innerHeight-3)}
+ const footer=document.querySelector('footer'),scrollDown=document.getElementById('scroll-down'),lowerView=document.getElementById('lower-view');
+ const reduceMotion=matchMedia('(prefers-reduced-motion: reduce)');
+ let cueFrame=0;
+ function maxScrollY(){return Math.max(0,document.documentElement.scrollHeight-innerHeight)}
+ function updateScrollCue(){cueFrame=0;footer.toggleAttribute('data-more-below',scrollY<maxScrollY()-3)}
+ scrollDown.addEventListener('click',()=>{
+  const lowerTop=scrollY+lowerView.getBoundingClientRect().top;
+  const top=Math.min(maxScrollY(),lowerTop>scrollY+4?lowerTop:maxScrollY());
+  window.scrollTo({top,behavior:reduceMotion.matches?'auto':'smooth'});
+ });
  function queueScrollCue(){if(!cueFrame)cueFrame=requestAnimationFrame(updateScrollCue)}
  addEventListener('scroll',queueScrollCue,{passive:true});addEventListener('resize',queueScrollCue);new ResizeObserver(queueScrollCue).observe(document.body);queueScrollCue();
  const canvas=document.getElementById('surface'),host=canvas.parentElement,key='surface-drag-hint:apparent-contours';
